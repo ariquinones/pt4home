@@ -1,10 +1,6 @@
 @import "../bower_components/normalize-scss/_normalize.scss";
 @import "../bower_components/typeplate-starter-kit/scss/_typeplate.scss";
 
-p+p {
-    text-indent: 0;
-    margin-top: 0;
-}
 
 
 ul, ol {
@@ -127,6 +123,86 @@ body {
     margin: 0; 
     box-sizing: border-box;
 } 
+// Splash Screen 
+body {
+    background: rgba(40,48,64,1);
+}
+.splashContainer {
+    margin: 10% auto;
+    text-align: center;
+    h1 {
+        color: white;
+        font-size: 2.5em;
+    }
+    h2 {
+        color: rgba(255,255,255,.7);
+        font-size: 2em;
+    }
+    button {
+        color: white;
+        background: rgba(60,173,180,.8);
+        border-radius: 10px;
+        border: none;
+        margin: auto 10%;
+        padding: 1%;
+    }
+}
+// Login Screen 
+.loginContainer {
+    margin: 10% auto;
+    text-align: center;
+    h1 {
+        color: white;
+    }    
+    input {
+        border: none;
+        border-bottom: 1px solid rgba(60,173,180,.8);
+        background: transparent;
+        color: white;
+        display: block;
+        margin: 2% auto;
+        padding: 1%;
+        width: 30%;
+    }
+    input:focus {
+        outline: none;
+    }
+    button {
+        width: 30%;
+        color: white;
+        background: rgba(60,173,180,.8);
+        border-radius: 10px;
+        border: none;
+        margin: 2% auto;
+        padding: 1%;
+        display: block;
+    }
+}
+
+//  Header 
+.header {
+    background: rgba(60,173,180,1);
+    width: 100%;
+    height: 5vh;
+    padding: 2%;
+        .welcomeMsg {
+        font-size: 1em;
+        position: absolute;
+        top: 1%;
+        left: 1%;
+        margin: auto;
+        color: white;
+        }
+        .logoutLink {
+            position: absolute;
+            top: 1%;
+            right: 1%;
+            margin: auto;
+            color: white;
+            text-decoration: none;
+        }
+}
+
 // Left and Right Col views 
 .rightCol {
     width: 80%;
@@ -142,6 +218,14 @@ body {
     display: inline-block;
     color: white;
     background: rgba(40,48,64,1);
+}
+
+.profileImg {
+    width: 100px;
+    border-radius: 50%;
+}
+.exerciseImg {
+    width: 10%;
 }
 
  .weekExercisesContainer {
@@ -238,28 +322,7 @@ body {
 
 
 // Patient View
-.header {
-    background: gray;
-    width: 100%;
-    height: 5vh;
-    padding: 2%;
-        .welcomeMsg {
-        font-size: 1em;
-        position: absolute;
-        top: 1%;
-        left: 1%;
-        margin: auto;
-        color: white;
-        }
-        .logoutLink {
-            position: absolute;
-            top: 1%;
-            right: 1%;
-            margin: auto;
-            color: white;
-            text-decoration: none;
-        }
-}
+
 
 
 .daysOfTheWeeK {

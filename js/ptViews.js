@@ -30,8 +30,8 @@ var PtLoginView = React.createClass ({
     				<input placeholder="password" onChange={this._updatePassword} type="password"/>
     				<input onChange={this._updateName} placeholder="username"/>
 	    			<div className="splashButtons">
-	    				<button onClick={this._handleSignUp}>sign up</button>
-	    				<button onClick={this._handleLogin}>log in</button>
+	    				<button onClick={this._handleSignUp}>SIGN UP</button>
+	    				<button onClick={this._handleLogin}>LOGIN</button>
 	    			</div>
     			</div>
     			)

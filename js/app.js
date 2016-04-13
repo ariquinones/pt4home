@@ -55,7 +55,8 @@ function app() {
     	render: function () {
     		return (
     			<div className="splashContainer">
-    			<h1>Pick your journey</h1>
+                <h1>PT4HOME</h1>
+    			<h2>Pick your journey</h2>
 	    			<div className="splashButtons">
 	    				<button onClick={this._handlePatientLogin}>Patient</button>
 	    				<button onClick={this._handlePTlogin}>Physical Therapist</button>
@@ -74,181 +75,130 @@ function app() {
     	_handleLogout: function() {
     		this.props.logout()
     	},
+        _updateShowPatients: function(boolean) {
+            this.setState ({
+                showingPatients: boolean
+            })
+        },
+        _updateAddPatient: function(boolean) {
+            this.setState({
+                showingAddPatient: boolean
+            })
+        },
+        _updateShowPtProfile: function(boolean) {
+            this.setState({
+                showingPtProfile: boolean
+            })
+        },
+        _updateShowPtEditProfile: function(boolean) {
+            this.setState({
+                showingPtEditProfile: boolean
+            })
+        },
+        _updatePatientTargetEmail: function(boolean) {
+            this.setState({
+                showingPatientTargetEmail: boolean
+            })
+        },
+        _updateDailyExercises: function(day,boolean) {
+            this.setState({
+                dailyExercisesDay: day,
+                dailyExercisesDayShowing: boolean
+            })
+        },
     	render: function () {  
-            console.log(this.props.ptName.get('name'))
     		return (
     				<div className="dashboard">
                          <div className="header">
                             <span className="welcomeMsg" >Hello, {this.props.ptName.get('name')}</span>
                             <a className="logoutLink" onClick={this._handleLogout} href="logout">log out</a>
                         </div>
-                        <ShowPatients patientsArray={this.props.ptMod} />
-                        <AddPatient ptUid={this.props.ptUid} />
-                        <WeekList />
-                        <PTprofile ptUid={this.props.ptUid} ptMod={this.props.ptName} />
+                        <div className="leftCol">
+                            <ShowPatientsInput patientsArray={this.props.ptMod} showingPatients={this.state.showingPatients} _updateShowPatients={this._updateShowPatients}/>
+                            <AddPatientInput showingAddPatient={this.state.showingAddPatient} _updateAddPatient={this._updateAddPatient} />
+                            <WeekList dailyExercisesDayShowing={this.state.dailyExercisesDayShowing} _updatePatientTargetEmail={this._updatePatientTargetEmail} showingPatientTargetEmail={this.state.showingPatientTargetEmail} _updateDailyExercises={this._updateDailyExercises} />
+                            <PTprofileInput _updateShowPtEditProfile={this._updateShowPtEditProfile} showingPtEditProfile={this.state.showingPtEditProfile} ptUid={this.props.ptUid} ptMod={this.props.ptName} showingPtProfile={this.state.showingPtProfile} _updateShowPtProfile={this._updateShowPtProfile} />
+                        </div>
+                        <div className="rightCol">
+                            <ShowAllPatients patientsArray={this.props.ptMod} showingPatients={this.state.showingPatients} />
+                            <AddNewPatientView showingAddPatient={this.state.showingAddPatient} ptUid={this.props.ptUid} />
+                            <ShowAddingWeekExercises showingPatientTargetEmail={this.state.showingPatientTargetEmail} />
+                            <DailyExercises dailyExercisesDayShowing={this.state.dailyExercisesDayShowing} dailyExercisesDay={this.state.dailyExercisesDay} />
+                            <ShowPtProfile showingPtEditProfile={this.state.showingPtEditProfile} ptUid={this.props.ptUid} ptMod={this.props.ptName} showingPtProfile={this.state.showingPtProfile} />
+                        </div>
     				</div>
     			)
     	},
+        getInitialState: function() {
+            return {
+                showingPatients: false,
+                showingAddPatient: false,
+                showingPtProfile: false,
+                showingPtEditProfile: false,
+                showingPatientTargetEmail: false,
+                dailyExercisesDay: '',
+                dailyExercisesDayShowing: false
+            }
+        }
     })
-    var ShowPatients = React.createClass({
-        _showPatient: function(mod, i) {
-            return (
-                    <p className="patient" key={i}> {mod.get('name')} </p>
-                )
+    var ShowPatientsInput = React.createClass({
+        _togglePatientsShowing: function () {
+            if (this.props.showingPatients) {
+                var boolean = false 
+            } else var boolean = true 
+            this.props._updateShowPatients(boolean)
         },
         render: function () {
-            console.log(this.props.patientsArray)
             return (
                     <div className="ptsPatientsContainer">
-                        <input type="checkbox" className="showAllPatientsCheckbox"/>
+                        <input onChange={this._togglePatientsShowing} type="checkbox" className="showAllPatientsCheckbox"/>
                         <span className="showAllPatientsTitle">Patients</span>
-                        {this.props.patientsArray.map(this._showPatient)}
                     </div>
                     )
         }
     })
-    var WeekList = React.createClass({
-        targetEmail: '',
-         _updateTargetEmail: function(event) {
-            this.targetEmail = event.target.value
-            window.targetEmail = this.targetEmail
-        },
-        render: function () {
+    var ShowAllPatients = React.createClass({
+        _showPatient: function(mod, i) {
+            
+            var patientStyleObj = {display: "none"}
+            if (this.props.showingPatients) {
+                patientStyleObj = {display: "inline-block", margin: "2%", border: "1px solid black", padding: "2%"}
+            }
             return (
-                    <div className="weekExercisesContainer">
-                        <input type="checkbox" className="addExercise"/>
-                        <span className="addWeeksExerciseSpan">Add Week's Exercises</span>
-                        <div className="patientToReceiveTreatmentContainer">
-                            <span>Patient to receive regimen: </span>
-                            <input onChange={this._updateTargetEmail} placeholder="Patient's Email" className="targetEmail" />
-                        </div>
-                        <div className="weeksContainer">
-                            <div>
-                                <input type="checkbox" className="weekCheckbox"/>
-                                <span className="weekTitle">Week 1</span>
-                                    <DayList patientEmail={this.targetEmail} />
-                            </div>
-                             <div>
-                                <input type="checkbox" className="weekCheckbox"/>
-                                <span className="weekTitle">Week 2</span>
-                                    <DayList patientEmail={this.targetEmail} />
-                            </div>
-                             <div>
-                                <input type="checkbox" className="weekCheckbox"/>
-                                <span className="weekTitle">Week 3</span>
-                                    <DayList patientEmail={this.targetEmail} />
-                            </div>
-                             <div>
-                                <input type="checkbox" className="weekCheckbox"/>
-                                <span className="weekTitle">Week 4</span>
-                                    <DayList patientEmail={this.targetEmail} />
-                            </div>
-                         
-                        </div>
+                    <div style={patientStyleObj}>
+                    <p  className="patient" > Name: {mod.get('name')} </p>
+                    <span  className="patient" > Injury: {mod.get('injury')} </span>
+                    <p> Email: {mod.get('email')} </p>
                     </div>
                 )
-        }
-    })
-    var DayList = React.createClass({
-        render: function() {
-            return (
-                    <div className="daysContainer">
-                        <div>
-                            <input type="checkbox" value="Monday" className="dayOfWeekCheckbox"/>
-                            <span className="dayOfWeek">Monday</span>
-                            <div className="dailyExercises">
-                                <DailyExercises  day={"Monday"} patientEmail={this.props.patientEmail}/>
-                            </div>
-                        </div>
-                         <div>
-                            <input type="checkbox" className="dayOfWeekCheckbox"/>
-                            <span className="dayOfWeek">Tuesday</span>
-                             <div className="dailyExercises">
-                                <DailyExercises day={"Tuesday"} patientEmail={this.props.patientEmail} />
-                            </div>
-                        </div>
-                         <div>
-                            <input type="checkbox" className="dayOfWeekCheckbox"/>
-                            <span className="dayOfWeek">Wednesday</span>
-                             <div className="dailyExercises">
-                                <DailyExercises day={"Wednesday"} patientEmail={this.props.patientEmail} />
-                            </div>
-                        </div>
-                         <div>
-                            <input type="checkbox" className="dayOfWeekCheckbox"/>
-                            <span className="dayOfWeek">Thursday</span>
-                             <div className="dailyExercises">
-                                <DailyExercises day={"Thursday"} patientEmail={this.props.patientEmail} />
-                            </div>
-                        </div>
-                         <div>
-                            <input type="checkbox" className="dayOfWeekCheckbox"/>
-                            <span className="dayOfWeek">Friday</span>
-                             <div className="dailyExercises">
-                                <DailyExercises day={"Friday"} patientEmail={this.props.patientEmail} />
-                            </div>
-                        </div>
-                    </div>
-                    )
-        }
-    })
-    var DailyExercises = React.createClass({
-        exerciseName: '',
-        reps: '',
-        sets: '',
-        beforeImg: '',
-        afterImg: '',
-        exerciseDescription: '',
-        _updateExerciseName: function(event) {
-            this.exerciseName = event.target.value
-        },
-        _updateExerciseDescription: function(event) {
-            this.exerciseDescription = event.target.value
-        },
-        _updateReps: function(event) {
-            this.reps = event.target.value
-        },
-        _updateSets: function(event) {
-            this.sets = event.target.value
-        },
-        _sendExerciseToPatient: function() {
-            var day = this.props.day 
-            var email = window.targetEmail
-            var newQuery = new QueryByEmail(email)
-            var self = this
-            newQuery.fetch() 
-            newQuery.on('sync', function() {
-                var userId = newQuery.models[0].get("id")
-                var userMsgColl = new UserExercises(userId, day)
-                userMsgColl.create({
-                            exerciseName: self.exerciseName,
-                            exerciseDescription: self.exerciseDescription,
-                            exerciseReps: self.reps,
-                            exerciseSets: self.sets,
-                            pt: ref.getAuth().password.email,
-                            sender_id: ref.getAuth().uid
-                            })
-
-            })
-            this.refs.exName.value = ''
-            this.refs.exDescr.value = ''
-            this.refs.exReps.value = ''
-            this.refs.exSets.value = ''
         },
         render: function() {
             return (
-                    <div className="messenger">
-                        <textarea ref="exName" onChange={this._updateExerciseName} placeholder="Exercise Name" className="exName"/>
-                        <textarea ref="exDescr" onChange={this._updateExerciseDescription} placeholder="Exercise Description" className="exDescription"/>
-                        <textarea ref="exReps" onChange={this._updateReps} placeholder="Number of reps" className="exReps" />
-                        <textarea ref="exSets" onChange={this._updateSets} placeholder="Number of sets" className="exSets"/>
-                        <button onClick={this._sendExerciseToPatient}> Send </button>
-                    </div>
+                <div className="allPatientsContainer">
+                     {this.props.patientsArray.map(this._showPatient)}
+                </div>
                 )
         }
     })
 
-    var AddPatient = React.createClass({
+    var AddPatientInput = React.createClass({
+        _toggleAddPatient: function() {
+            if (this.props.showingAddPatient) {
+                var boolean = false
+            } else {
+                var boolean = true
+            }
+            this.props._updateAddPatient(boolean)
+        },
+        render: function() {
+            return (
+                    <div className="addPatientContainer">
+                        <input type="checkbox" onChange={this._toggleAddPatient} className="addPatientCheckbox"/><span>Add new patient by email</span>
+                    </div>
+                )
+        }
+    })
+    var AddNewPatientView = React.createClass({
         patientEmail: '',
         _updatePatientEmail: function(event) {
             this.patientEmail = event.target.value
@@ -261,6 +211,7 @@ function app() {
                 var patientMod = newPatientQuery.models[0]
                 var patientName = patientMod.get('name')
                 var patientEmail = patientMod.get('email')
+                var patientInjury = patientMod.get('injury')
                 console.log(self.props.ptUid)
                 console.log(ref.getAuth().uid)
                 // var ptMod = new PhysicalTherapistUserModel(self.props.ptUid)
@@ -284,24 +235,56 @@ function app() {
                 console.log(patientsCollForPT)
                 patientsCollForPT.on('sync', function() {
                     console.log('sinked!')
-                    patientsCollForPT.create({id: patientMod.id, name: patientName, email: patientEmail})
+                    patientsCollForPT.create({id: patientMod.id, name: patientName, email: patientEmail, injury: patientInjury})
                 })
                         
             })
         },
         render: function() {
+            var addPatientStyleObj = {display: 'none'}
+            if (this.props.showingAddPatient) {
+                addPatientStyleObj = {display: 'block'}
+            }
             return (
-                    <div className="addPatientContainer">
-                        <input type="checkbox" className="addPatientCheckbox"/><span>Add new patient by email</span>
-                        <div className="patientToBeAddedContainer">
+                    <div style={addPatientStyleObj} className="patientToBeAddedContainer">
                             <input onChange={this._updatePatientEmail} placeholder="patient email" className="patientEmail"/>
                             <button onClick={this._addPatient}>Add</button>
-                        </div>
                     </div>
                 )
         }
     })
-    var PTprofile = React.createClass({
+
+    var PTprofileInput = React.createClass({
+        _togglePtProfileShowing: function() {
+           
+         if (this.props.showingPtProfile) {
+                var boolean = false
+            } else {
+                var boolean = true
+            }
+            this.props._updateShowPtProfile(boolean)
+        },
+        _togglePtEditProfileShowing: function() {
+           
+         if (this.props.showingPtEditProfile) {
+                var boolean = false
+            } else {
+                var boolean = true
+            }
+            this.props._updateShowPtEditProfile(boolean)
+        },
+        render: function () {
+            return (
+                    <div className="patientProfileView">
+                        <input onChange={this._togglePtProfileShowing} type="checkbox" className="showCurrentProfileCheckbox"/>
+                        <span className="profileSpan">Profile</span>
+                        <input onChange={this._togglePtEditProfileShowing} type="checkbox" className="editProfileCheckbox"/>
+                        <span className="editProfileSpan" >Edit Profile</span>
+                    </div>
+                )
+        }
+    })
+    var ShowPtProfile = React.createClass({
         ptLastName: '',
         ptFirstName: '',
         ptPhone: '',
@@ -331,16 +314,55 @@ function app() {
         _handlePtGender: function (e) {
             this.ptGender = e.target.value
         },
+        _handlePtProfileImg: function (e) {
+            var imgElement = e.target
+            this.ptProfileImg = imgElement.files[0]
+        },
         _handleProfileChanges: function () {
             var ptProfileMod = new PhysicalTherapistUserModel(this.props.ptUid)
-            ptProfileMod.set({
-                lastName: this.ptLastName,
-                firstName: this.ptFirstName,
-                phone: this.ptPhone,
-                specialty: this.ptSpecialty,
-                bio: this.ptBio,
-                gender: this.ptGender
-            })
+            console.log(ptProfileMod)
+            
+            if (this.ptLastName === '') {
+                this.ptLastName = ptProfileMod.get('lastName')
+            }
+              if (this.ptFirstName === '') {
+                this.ptFirstName = ptProfileMod.get('firstName')
+            }
+              if (this.ptPhone === '') {
+                this.ptPhone = ptProfileMod.get('phone')
+            }
+              if (this.ptSpecialty === '') {
+                this.ptSpecialty = ptProfileMod.get('specialty')
+            }
+              if (this.ptBio === '') {
+                this.ptBio = ptProfileMod.get('bio')
+            }
+              if (this.ptGender === '') {
+                this.ptGender = ptProfileMod.get('gender')
+            }
+            var ptProfile = {
+                            lastName: this.ptLastName,
+                            firstName: this.ptFirstName,
+                            phone: this.ptPhone,
+                            specialty: this.ptSpecialty,
+                            bio: this.ptBio,
+                            gender: this.ptGender,
+                            ptProfileImg: ''
+                        }
+
+            if (this.ptProfileImg) {
+                    var imgReader = new FileReader()
+                    imgReader.readAsDataURL(this.ptProfileImg)
+                    imgReader.addEventListener('load', function() {
+                        var base64string = imgReader.result
+                        ptProfile.ptProfileImg = base64string
+                        ptProfileMod.set(ptProfile)
+                })
+            } else {
+                 ptProfile.ptProfileImg = './Images/profileImgPlaceholder.svg'
+                 ptProfileMod.set(ptProfile)
+            }
+            
             this.refs.ptLastName.value = ''
             this.refs.ptFirstName.value =''
             this.refs.ptPhone.value = ''
@@ -348,43 +370,228 @@ function app() {
             this.refs.ptBio.value = ''
         },
         render: function () {
+            var ptProfileStylesObj = {display: "none"}
+            var ptEditProfileStylesObj = {display: 'none'}
+            if (this.props.showingPtProfile) {
+                ptProfileStylesObj = {display: "block"}
+            }
+            if (this.props.showingPtEditProfile) {
+                ptEditProfileStylesObj = {display: 'block', margin: "auto"}
+            }
             return (
-                    <div className="patientProfileView">
-                        <input type="checkbox" className="showCurrentProfileCheckbox"/>
-                        <span className="profileSpan">Profile</span>
+                    <div style={ptProfileStylesObj} >
                         <div className="currentProfileInformation">
                             <p>Last Name: {this.props.ptMod.get('lastName')}</p>
+                                 <input type="textbox" onChange={this._handlePtLastName} style={ptEditProfileStylesObj} ref="ptLastName" />
                             <p>First Name: {this.props.ptMod.get('firstName')}</p>
+                                  <input type="textbox" onChange={this._handlePtFirstName} style={ptEditProfileStylesObj} ref="ptFirstName"/>
                             <p>Phone: {this.props.ptMod.get('phone')}</p>
+                                 <input type="textbox" onChange={this._handlePtPhone} style={ptEditProfileStylesObj} ref="ptPhone"/>
                             <p>Email: {this.props.ptMod.get('email')}</p>
                             <p>Gender: {this.props.ptMod.get('gender')}</p>
+                                <input type="radio" name="gender" onChange={this._handlePtGender} style={ptEditProfileStylesObj} value="male"/><span style={ptEditProfileStylesObj} > Male</span>
+                                <input type="radio" name="gender" onChange={this._handlePtGender} style={ptEditProfileStylesObj} value="female"/><span style={ptEditProfileStylesObj} > Female</span>
                             <p>Specialty: {this.props.ptMod.get('specialty')}</p>
+                                 <input type="textbox" onChange={this._handlePtSpeciatly} style={ptEditProfileStylesObj} ref="ptSpecialty"/>
                             <p>Bio: {this.props.ptMod.get('bio')}</p>
-                        </div>
-                        <input type="checkbox" className="editProfileCheckbox"/>
-                        <span className="editProfileSpan" >Edit Profile</span>
-                        <div className="profileInformationContainer">
-                            <p>Last Name:</p>
-                            <input type="textbox" onChange={this._handlePtLastName}  ref="ptLastName" />
-                            <p>First Name:</p>
-                            <input type="textbox" onChange={this._handlePtFirstName}  ref="ptFirstName"/>
-                            <p>Phone:</p>
-                            <input type="textbox" onChange={this._handlePtPhone} ref="ptPhone"/>
-                            <p>Specialty:</p>
-                            <input type="textbox" onChange={this._handlePtSpeciatly}  ref="ptSpecialty"/>
-                            <p>Bio:</p>
-                            <input type="textbox" onChange={this._handlePtBio} ref="ptBio"/>
-                            <p>Gender:</p>
-                            <input type="radio" name="gender" onChange={this._handlePatientGender} value="male"/><span> Male</span>
-                            <input type="radio" name="gender" onChange={this._handlePatientGender} value="female"/><span> Female</span>
-                            <button onClick={this._handleProfileChanges} className="submitProfileChanges">Save</button>
+                                <input type="textbox" onChange={this._handlePtBio} style={ptEditProfileStylesObj} ref="ptBio"/>
+                            <img className='profileImg' src={this.props.ptMod.get('ptProfileImg')} />
+                             <input style={ptEditProfileStylesObj} ref="ptProfileImg" type="file" onChange={this._handlePtProfileImg} />
+                            <button onClick={this._handleProfileChanges} style={ptEditProfileStylesObj} className="submitProfileChanges">Save</button>
                         </div>
                     </div>
                 )
         }
-
     })
 
+    var ShowAddingWeekExercises = React.createClass({
+        targetEmail: '',
+         _updateTargetEmail: function(event) {
+            this.targetEmail = event.target.value
+            window.targetEmail = this.targetEmail
+        },
+        render: function() {
+
+            var emailInputStylesObj = {display: 'none'}
+            if (this.props.showingPatientTargetEmail) {
+                emailInputStylesObj = {display: 'block'}
+            }
+            return (
+                    <div style={emailInputStylesObj} className="patientToReceiveTreatmentContainer">
+                        <span>Patient to receive regimen: </span>
+                        <input onChange={this._updateTargetEmail} placeholder="Patient's Email" className="targetEmail" />
+                    </div>
+                )
+        }
+    })
+    var WeekList = React.createClass({
+        _togglePatientTargetEmail: function() {
+            if (this.props.showingPatientTargetEmail) {
+                var boolean = false
+            } else var boolean = true
+            this.props._updatePatientTargetEmail(boolean)
+        },
+        render: function () {
+            return (
+                    <div className="weekExercisesContainer">
+                        <input onChange={this._togglePatientTargetEmail} type="checkbox" className="addExercise"/>
+                        <span className="addWeeksExerciseSpan">Add Week's Exercises</span>
+                        <div className="weeksContainer">
+                            <div>
+                                <input type="checkbox" className="weekCheckbox"/>
+                                <span className="weekTitle">Week 1</span>
+                                    <DayList dailyExercisesDayShowing={this.props.dailyExercisesDayShowing} _updateDailyExercises={this.props._updateDailyExercises} patientEmail={window.targetEmail} />
+                            </div>
+                             <div>
+                                <input type="checkbox" className="weekCheckbox"/>
+                                <span className="weekTitle">Week 2</span>
+                                    <DayList dailyExercisesDayShowing={this.props.dailyExercisesDayShowing} _updateDailyExercises={this.props._updateDailyExercises} patientEmail={window.targetEmail} />
+                            </div>
+                             <div>
+                                <input type="checkbox" className="weekCheckbox"/>
+                                <span className="weekTitle">Week 3</span>
+                                    <DayList dailyExercisesDayShowing={this.props.dailyExercisesDayShowing} _updateDailyExercises={this.props._updateDailyExercises} patientEmail={window.targetEmail} />
+                            </div>
+                             <div>
+                                <input type="checkbox" className="weekCheckbox"/>
+                                <span className="weekTitle">Week 4</span>
+                                    <DayList dailyExercisesDayShowing={this.props.dailyExercisesDayShowing} _updateDailyExercises={this.props._updateDailyExercises} patientEmail={window.targetEmail} />
+                            </div>
+                         
+                        </div>
+                    </div>
+                )
+        }
+    })
+    var DayList = React.createClass({
+        _toggleDailyExercises: function(e) {
+            var day = e.target.value
+            
+            if (this.props.dailyExercisesDayShowing) {
+                var boolean = false
+            } else var boolean = true
+            this.props._updateDailyExercises(day,boolean)
+        },
+        render: function() {
+            return (
+                    <div className="daysContainer">
+                        <div>
+                            <input onChange={this._toggleDailyExercises} type="checkbox" value="Monday" className="dayOfWeekCheckbox"/>
+                            <span className="dayOfWeek">Monday</span>
+                          
+                        </div>
+                         <div>
+                            <input onChange={this._toggleDailyExercises} type="checkbox" value="Tuesday" className="dayOfWeekCheckbox"/>
+                            <span className="dayOfWeek">Tuesday</span>
+                         
+                        </div>
+                         <div>
+                            <input onChange={this._toggleDailyExercises} type="checkbox" value="Wednesday" className="dayOfWeekCheckbox"/>
+                            <span className="dayOfWeek">Wednesday</span>
+                             
+                        </div>
+                         <div>
+                            <input onChange={this._toggleDailyExercises} type="checkbox" value="Thursday" className="dayOfWeekCheckbox"/>
+                            <span className="dayOfWeek">Thursday</span>
+                        
+                        </div>
+                         <div>
+                            <input onChange={this._toggleDailyExercises} type="checkbox" value="Friday" className="dayOfWeekCheckbox"/>
+                            <span className="dayOfWeek">Friday</span>
+                            
+                        </div>
+                    </div>
+                    )
+        }
+    })
+    var DailyExercises = React.createClass({
+        exerciseName: '',
+        reps: '',
+        sets: '',
+        exerciseDescription: '',
+        beforeImg: '',
+        afterImg: '',
+        _updateExerciseName: function(event) {
+            this.exerciseName = event.target.value
+        },
+        _updateExerciseDescription: function(event) {
+            this.exerciseDescription = event.target.value
+        },
+        _updateReps: function(event) {
+            this.reps = event.target.value
+        },
+        _updateSets: function(event) {
+            this.sets = event.target.value
+        },
+        _updateBeforeImg: function(event) {
+            var imgElement = event.target
+            this.beforeImg = imgElement.files[0]
+        },
+        _updateAfterImg: function(event) {
+            var imgElement = event.target
+            this.afterImg = imgElement.files[0]
+        },
+        _sendExerciseToPatient: function() {
+            var day = this.props.dailyExercisesDay
+            var email = window.targetEmail
+            var newQuery = new QueryByEmail(email)
+            var self = this
+            var exerciseObject = {
+                            exerciseName: self.exerciseName,
+                            exerciseDescription: self.exerciseDescription,
+                            exerciseReps: self.reps,
+                            exerciseSets: self.sets,
+                            pt: ref.getAuth().password.email,
+                            sender_id: ref.getAuth().uid,
+                            beforeImg: '', 
+                            afterImg:  ''
+                            }
+             if (this.beforeImg) {
+                    var reader = new FileReader()
+                    reader.readAsDataURL(this.beforeImg)
+                    reader.addEventListener('load', function() {
+                    var base64string = reader.result
+                    exerciseObject.beforeImg = base64string
+                })
+            }
+            if (this.afterImg) {
+                    var afterRdr = new FileReader()
+                    afterRdr.readAsDataURL(this.afterImg)
+                    afterRdr.addEventListener('load', function() {
+                    var base64stringafter = afterRdr.result
+                    exerciseObject.afterImg = base64stringafter
+                })
+            }
+            newQuery.fetch() 
+            newQuery.on('sync', function() {
+                var userId = newQuery.models[0].get("id")
+                var userMsgColl = new UserExercises(userId, day)
+                userMsgColl.create(exerciseObject)
+            })
+            this.refs.exName.value = ''
+            this.refs.exDescr.value = ''
+            this.refs.exReps.value = ''
+            this.refs.exSets.value = ''
+        },
+        render: function() {
+            var messengerStylesObj = {display:'none'}
+            if (this.props.dailyExercisesDayShowing) {
+                messengerStylesObj = {display: 'block'}
+            }
+
+            return (
+                    <div style={messengerStylesObj} className="messenger">
+                        <textarea ref="exName" onChange={this._updateExerciseName} placeholder="Exercise Name" className="exName"/>
+                        <textarea ref="exDescr" onChange={this._updateExerciseDescription} placeholder="Exercise Description" className="exDescription"/>
+                        <textarea ref="exReps" onChange={this._updateReps} placeholder="Number of reps" className="exReps" />
+                        <textarea ref="exSets" onChange={this._updateSets} placeholder="Number of sets" className="exSets"/>
+                        <input ref="beforeImg" type="file" onChange={this._updateBeforeImg} className="beforeImg"/>
+                         <input ref="afterImg" type="file" onChange={this._updateAfterImg} className="afterImg"/>
+                        <button onClick={this._sendExerciseToPatient}> Send </button>
+                    </div>
+                )
+        }
+    })
 
 	var PatientPortal = React.createClass({
 		componentWillMount: function() {
@@ -430,7 +637,7 @@ function app() {
                         </div>
                         <div className="rightCol">
                             <ShowIndividualExercise dayModelShowing={this.state.dayModelShowing} dayModel={this.state.dayModel}  />
-                            <ShowPatientProfile patientMod={this.props.patientMod} _updateEditPatientProfile={this._updateEditPatientProfile} _updateRightColPatientProfile={this._updateRightColPatientProfile} showPatientProfile={this.state.showPatientProfile} editPatientProfile={this.state.editPatientProfile} />
+                            <ShowPatientProfile patientUid={this.props.patientUid} patientMod={this.props.patientMod} _updateEditPatientProfile={this._updateEditPatientProfile} _updateRightColPatientProfile={this._updateRightColPatientProfile} showPatientProfile={this.state.showPatientProfile} editPatientProfile={this.state.editPatientProfile} />
                         </div>
 					</div>
 				)
@@ -469,7 +676,7 @@ function app() {
                         <input type="checkbox" onChange={this._showPatientProfile} className="showCurrentProfileCheckbox"/>
                         <span className="profileSpan">Profile</span>
                         <input type="checkbox" onChange={this._showEditPatientProfile} className="editProfileCheckbox"/>
-                        <span className="editProfileSpan" >Edit Profile</span>
+                        <span className="editProfileSpan" > - Edit Profile</span>
                     </div>
                 )
         }
@@ -479,7 +686,7 @@ function app() {
         patientFirstName: '',
         patientPhone: '',
         patientInjury: '',
-        patientProfilePic: null,
+        patientProfileImg: '',
         patientGender: '',
         patientEmail: '',
         _handlePatientLastName: function(e) {
@@ -496,20 +703,58 @@ function app() {
         },
         _handlePatientGender: function (e) {
             this.patientGender = e.target.value
-            console.log(this.patientGender)
         },
         _handlePatientEmail: function (e) {
             this.patientEmail = e.target.value
         },
+        _handlePatientProfileImg: function(e) {
+            var imgElement = e.target
+            this.patientProfileImg = imgElement.files[0]
+        },
         _handleProfileChanges: function () {
             var profileChangesMod = new PatientUserModel(this.props.patientUid)
-            profileChangesMod.set({
-                lastName: this.patientLastName,
-                firstName: this.patientFirstName,
-                phone: this.patientPhone,
-                injury: this.patientInjury,
-                gender: this.patientGender
-            })
+            if (this.patientLastName === '') {
+                this.patientLastName = profileChangesMod.get('lastName')
+            }
+              if (this.patientFirstName === '') {
+                this.patientFirstName = profileChangesMod.get('firstName')
+            }
+              if (this.patientPhone === '') {
+                this.patientPhone = profileChangesMod.get('phone')
+            }
+              if (this.patientInjury === '') {
+                this.patientInjury = profileChangesMod.get('injury')
+            }
+              if (this.patientGender === '') {
+                this.patientGender = profileChangesMod.get('gender')
+            }
+            var patientProfileChanges = {
+                            lastName: this.patientLastName,
+                            firstName: this.patientFirstName,
+                            phone: this.patientPhone,
+                            injury: this.patientInjury,
+                            gender: this.patientGender,
+                            patientProfileImg: ''
+                        }
+            if (this.patientProfileImg) {
+                    var imgReader = new FileReader()
+                    imgReader.readAsDataURL(this.patientProfileImg)
+                    imgReader.addEventListener('load', function() {
+                        var base64string = imgReader.result
+                        patientProfileChanges.patientProfileImg = base64string
+                        profileChangesMod.set(patientProfileChanges)
+                    })
+            } else { 
+                patientProfileChanges.patientProfileImg = './Images/profileImgPlaceholder.svg'
+                profileChangesMod.set(patientProfileChanges) 
+            }
+
+            this.refs.patientLastName.value = ''
+            this.refs.patientFirstName.value = ''
+            this.refs.patientPhone.value = ''
+            this.refs.male.value = ''
+            this.refs.female.value = ''
+            this.refs.injury.value = ''
         },
         render: function () {
             var currentProfileStylesObj = {display: "none"}
@@ -528,19 +773,21 @@ function app() {
             return (
                 <div style={currentProfileStylesObj} className="currentProfileInformation">
                             <p>Last Name: {this.props.patientMod.get('lastName')}</p>
-                                <input style={editProfileInformationContainerStylesObj} type="textbox" onChange={this._handlePatientLastName} className="patientLastName"/>
+                                <input style={editProfileInformationContainerStylesObj} type="textbox" onChange={this._handlePatientLastName} className="patientLastName" ref="patientLastName"/>
                             <p>First Name: {this.props.patientMod.get('firstName')}</p>
-                                <input style={editProfileInformationContainerStylesObj} type="textbox" onChange={this._handlePatientFirstName} className="patientFirstName"/>
+                                <input style={editProfileInformationContainerStylesObj} type="textbox" onChange={this._handlePatientFirstName} className="patientFirstName" ref="patientFirstName"/>
                             <p>Phone: {this.props.patientMod.get('phone')}</p>
-                                <input style={editProfileInformationContainerStylesObj} type="textbox" onChange={this._handlePatientPhone} className="patientPhone"/>
+                                <input style={editProfileInformationContainerStylesObj} type="textbox" onChange={this._handlePatientPhone} className="patientPhone" ref="patientPhone" />
                             <p>Email: {this.props.patientMod.get('email')}</p>
-                                 <input style={editProfileInformationContainerStylesObj} type="textbox" onChange={this._handlePatientEmail} className="patientEmail"/>
                             <p>Gender: {this.props.patientMod.get('gender')}</p>
-                                <input style={editProfileInformationContainerStylesObj} type="radio" name="gender" onChange={this._handlePatientGender} value="male"/><span style={editProfileInformationContainerStylesObj}> Male</span>
-                                <input style={editProfileInformationContainerStylesObj} type="radio" name="gender" onChange={this._handlePatientGender} value="female"/>
-                                <span style={editProfileInformationContainerStylesObj}> Female</span>
+                                <input style={editProfileInformationContainerStylesObj} type="radio" name="gender" onChange={this._handlePatientGender} value="male" ref="male"/>
+                                    <span style={editProfileInformationContainerStylesObj}> Male</span>
+                                <input style={editProfileInformationContainerStylesObj} type="radio" name="gender" onChange={this._handlePatientGender} value="female" ref="female"/>
+                                    <span style={editProfileInformationContainerStylesObj}> Female</span>
                             <p>Injury: {this.props.patientMod.get('injury')}</p>
-                                 <input style={editProfileInformationContainerStylesObj} type="textbox" onChange={this._handlePatientInjury} className="patientInjury"/>
+                                 <input style={editProfileInformationContainerStylesObj} type="textbox" onChange={this._handlePatientInjury} className="patientInjury" ref="injury"/>
+                                 <img className='profileImg' src={this.props.patientMod.get('patientProfileImg')} />
+                             <input style={editProfileInformationContainerStylesObj} ref="patientProfileImg" type="file" onChange={this._handlePatientProfileImg} />
                             <button style={editProfileInformationContainerStylesObj} onClick={this._handleProfileChanges} className="submitProfileChanges">Save</button>
 
 
@@ -591,23 +838,31 @@ function app() {
         }
     })
     var ShowIndividualExercise = React.createClass({
+        _deleteExercise: function() {
+            this.props.remove(this.model)
+        },
         _showEachExercise: function(model) {
             var arr = []
             for (var key in this.props.dayModel.attributes) {
                 if (key !== 'id') {
                     var exerciseObject = this.props.dayModel.get(key);
+                    
                     arr.push(exerciseObject)
                 }
             }
             return arr.map(this._makeExercise)
         },
         _makeExercise: function (model) {
+            console.log(model)
                 return (
                     <div className="individualExercise" >
                         <p>Exercise Name: {model.exerciseName}</p>      
                         <p>Exercise Description: {model.exerciseDescription}</p>
                         <p>Exercise Sets: {model.exerciseSets} </p>
                         <p>Exercise Reps: {model.exerciseReps} </p>
+                        <span>Before</span><img className="exerciseImg" src={model.beforeImg}/>
+                        <span>After</span><img className="exerciseImg" src={model.afterImg}/>
+                        <button onClick={this._deleteExercise}>Complete</button>
                     </div>                 
                     )
         },
@@ -634,6 +889,7 @@ function app() {
     	initialize: function(uid) {
     		this.url = `http://pt4home.firebaseio.com/pts/${uid}`
     	},
+        autosyn: true
     })
     var PTpatientsCollection = Backbone.Firebase.Collection.extend({
         initialize: function(uid) {
@@ -695,14 +951,14 @@ function app() {
     	    						name: realName,
     	    						email: email,
     	    						id: authData.uid,
-                                    patients: []
+                                    patients: [],
+                                    patientProfileImg: './Images/profileImgPlaceholder.svg'
 	    						})
     				}
     			self._loginPtUser(email, password)
     		})
     	},
     	_createPatientUser: function(email,password,realName) {
-    		//console.log(email, password)
     		var self = this
     		this.ref.createUser({
     			email: email,
@@ -715,7 +971,8 @@ function app() {
     					patientMod.set({
 	    						name: realName,
 	    						email: email,
-	    						id: authData.uid
+	    						id: authData.uid,
+                                patientProfileImg: './Images/profileImgPlaceholder.svg'
 	    						})
     				}
     				self._loginPatientUser(email, password)
@@ -748,8 +1005,8 @@ function app() {
     		})
     	},
     	_logoutUser: function() {
-    		this.ref.unauth() 
-    		location.hash = "splash"
+    		this.ref.unauth()
+            location.hash = "splash"
     	},
     	showSplashPage: function() {
             location.hash = "splash"
