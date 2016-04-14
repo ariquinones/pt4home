@@ -110,6 +110,9 @@ function app() {
     		return (
     				<div className="dashboard">
                          <div className="header">
+                            <div className='profileImg'>
+                                <img src={this.props.ptName.get('ptProfileImg')} />
+                            </div>
                             <span className="welcomeMsg" >Hello, {this.props.ptName.get('name')}</span>
                             <a className="logoutLink" onClick={this._handleLogout} href="logout">log out</a>
                         </div>
@@ -381,25 +384,41 @@ function app() {
             return (
                     <div style={ptProfileStylesObj} >
                         <div className="currentProfileInformation">
-                            <p>Last Name: {this.props.ptMod.get('lastName')}</p>
-                                 <input type="textbox" onChange={this._handlePtLastName} style={ptEditProfileStylesObj} ref="ptLastName" />
-                            <p>First Name: {this.props.ptMod.get('firstName')}</p>
-                                  <input type="textbox" onChange={this._handlePtFirstName} style={ptEditProfileStylesObj} ref="ptFirstName"/>
-                            <p>Phone: {this.props.ptMod.get('phone')}</p>
-                                 <input type="textbox" onChange={this._handlePtPhone} style={ptEditProfileStylesObj} ref="ptPhone"/>
-                            <p>Email: {this.props.ptMod.get('email')}</p>
-                            <p>Gender: {this.props.ptMod.get('gender')}</p>
-                                <input type="radio" name="gender" onChange={this._handlePtGender} style={ptEditProfileStylesObj} value="male"/><span style={ptEditProfileStylesObj} > Male</span>
-                                <input type="radio" name="gender" onChange={this._handlePtGender} style={ptEditProfileStylesObj} value="female"/><span style={ptEditProfileStylesObj} > Female</span>
-                            <p>Specialty: {this.props.ptMod.get('specialty')}</p>
-                                 <input type="textbox" onChange={this._handlePtSpeciatly} style={ptEditProfileStylesObj} ref="ptSpecialty"/>
-                            <p>Bio: {this.props.ptMod.get('bio')}</p>
-                                <input type="textbox" onChange={this._handlePtBio} style={ptEditProfileStylesObj} ref="ptBio"/>
-                            <img className='profileImg' src={this.props.ptMod.get('ptProfileImg')} />
-                             <input style={ptEditProfileStylesObj} ref="ptProfileImg" type="file" onChange={this._handlePtProfileImg} />
+                            <div className="profileOption">
+                                <p>Last Name: {this.props.ptMod.get('lastName')}</p>
+                                     <input type="textbox" onChange={this._handlePtLastName} className="profileOptionInput" style={ptEditProfileStylesObj} ref="ptLastName" />
+                            </div>
+                            <div className="profileOption">
+                                <p>First Name: {this.props.ptMod.get('firstName')}</p>
+                                      <input type="textbox" onChange={this._handlePtFirstName} className="profileOptionInput" style={ptEditProfileStylesObj} ref="ptFirstName"/>
+                            </div>
+                            <div className="profileOption">
+                                <p>Phone: {this.props.ptMod.get('phone')}</p>
+                                     <input type="textbox" onChange={this._handlePtPhone}  className="profileOptionInput"style={ptEditProfileStylesObj} ref="ptPhone"/>
+                            </div>
+                            <div className="profileOption">
+                                <p>Email: {this.props.ptMod.get('email')}</p>
+                            </div>
+                            <div className="profileOption">
+                                <p>Gender: {this.props.ptMod.get('gender')}</p>
+                                    <input type="radio" name="gender" onChange={this._handlePtGender} style={ptEditProfileStylesObj} value="Male"/><span style={ptEditProfileStylesObj} > Male</span>
+                                    <input type="radio" name="gender" onChange={this._handlePtGender} style={ptEditProfileStylesObj} value="Female"/><span style={ptEditProfileStylesObj} > Female</span>
+                            </div>
+                            <div className="profileOption">
+                                <p>Specialty: {this.props.ptMod.get('specialty')}</p>
+                                     <input type="textbox" onChange={this._handlePtSpeciatly} className="profileOptionInput" style={ptEditProfileStylesObj} ref="ptSpecialty"/>
+                            </div>
+                            <div className="profileOption">
+                                <p>Bio: {this.props.ptMod.get('bio')}</p>
+                                    <input type="textbox" onChange={this._handlePtBio} className="profileOptionInput" style={ptEditProfileStylesObj} ref="ptBio"/>
+                            </div>
+                            <div className="profileOption">  
+                                <span style={ptEditProfileStylesObj} >Upload new profile image</span> 
+                                <input style={ptEditProfileStylesObj} ref="ptProfileImg" type="file" onChange={this._handlePtProfileImg} />
+                             </div>
                             <button onClick={this._handleProfileChanges} style={ptEditProfileStylesObj} className="submitProfileChanges">Save</button>
-                        </div>
                     </div>
+                </div>
                 )
         }
     })
@@ -435,29 +454,13 @@ function app() {
             return (
                     <div className="weekExercisesContainer">
                         <input onChange={this._togglePatientTargetEmail} type="checkbox" className="addExercise"/>
-                        <span className="addWeeksExerciseSpan">Add Week's Exercises</span>
+                        <span className="addWeeksExerciseSpan">Add Week Exercises</span>
                         <div className="weeksContainer">
                             <div>
                                 <input type="checkbox" className="weekCheckbox"/>
-                                <span className="weekTitle">Week 1</span>
+                                <span className="weekTitle">Week</span>
                                     <DayList dailyExercisesDayShowing={this.props.dailyExercisesDayShowing} _updateDailyExercises={this.props._updateDailyExercises} patientEmail={window.targetEmail} />
                             </div>
-                             <div>
-                                <input type="checkbox" className="weekCheckbox"/>
-                                <span className="weekTitle">Week 2</span>
-                                    <DayList dailyExercisesDayShowing={this.props.dailyExercisesDayShowing} _updateDailyExercises={this.props._updateDailyExercises} patientEmail={window.targetEmail} />
-                            </div>
-                             <div>
-                                <input type="checkbox" className="weekCheckbox"/>
-                                <span className="weekTitle">Week 3</span>
-                                    <DayList dailyExercisesDayShowing={this.props.dailyExercisesDayShowing} _updateDailyExercises={this.props._updateDailyExercises} patientEmail={window.targetEmail} />
-                            </div>
-                             <div>
-                                <input type="checkbox" className="weekCheckbox"/>
-                                <span className="weekTitle">Week 4</span>
-                                    <DayList dailyExercisesDayShowing={this.props.dailyExercisesDayShowing} _updateDailyExercises={this.props._updateDailyExercises} patientEmail={window.targetEmail} />
-                            </div>
-                         
                         </div>
                     </div>
                 )
@@ -627,7 +630,11 @@ function app() {
 		render: function() {
 			return (
 					<div className="patientPortalViewContainer">
+
                         <div className="header">
+                            <div className='profileImg'>
+                                <img src={this.props.patientMod.get('patientProfileImg')} />
+                            </div>
                             <span className="welcomeMsg" >Hello, {this.props.patientMod.get('name')}</span>
                             <a className="logoutLink" onClick={this._handleLogout} href="logout">log out</a>
                         </div>
@@ -676,7 +683,7 @@ function app() {
                         <input type="checkbox" onChange={this._showPatientProfile} className="showCurrentProfileCheckbox"/>
                         <span className="profileSpan">Profile</span>
                         <input type="checkbox" onChange={this._showEditPatientProfile} className="editProfileCheckbox"/>
-                        <span className="editProfileSpan" > - Edit Profile</span>
+                        <span className="editProfileSpan" >Edit Profile</span>
                     </div>
                 )
         }
@@ -772,22 +779,37 @@ function app() {
             }
             return (
                 <div style={currentProfileStylesObj} className="currentProfileInformation">
-                            <p>Last Name: {this.props.patientMod.get('lastName')}</p>
-                                <input style={editProfileInformationContainerStylesObj} type="textbox" onChange={this._handlePatientLastName} className="patientLastName" ref="patientLastName"/>
+                            <div className="profileOption">
                             <p>First Name: {this.props.patientMod.get('firstName')}</p>
-                                <input style={editProfileInformationContainerStylesObj} type="textbox" onChange={this._handlePatientFirstName} className="patientFirstName" ref="patientFirstName"/>
+                                <input style={editProfileInformationContainerStylesObj} type="textbox" onChange={this._handlePatientFirstName} className="profileOptionInput" ref="patientFirstName"/>
+                            </div>
+                            <div className="profileOption">
+                                <p>Last Name: {this.props.patientMod.get('lastName')}</p>
+                                    <input style={editProfileInformationContainerStylesObj} type="textbox" onChange={this._handlePatientLastName} className="profileOptionInput" ref="patientLastName"/>
+                            </div>
+                            <div className="profileOption">
+                                <p>Email: {this.props.patientMod.get('email')}</p>
+                            </div>
+                            <div className="profileOption">
                             <p>Phone: {this.props.patientMod.get('phone')}</p>
-                                <input style={editProfileInformationContainerStylesObj} type="textbox" onChange={this._handlePatientPhone} className="patientPhone" ref="patientPhone" />
-                            <p>Email: {this.props.patientMod.get('email')}</p>
+                                <input style={editProfileInformationContainerStylesObj} type="textbox" onChange={this._handlePatientPhone} className="profileOptionInput" ref="patientPhone" />
+                            </div>
+                            <div className="profileOption">
                             <p>Gender: {this.props.patientMod.get('gender')}</p>
-                                <input style={editProfileInformationContainerStylesObj} type="radio" name="gender" onChange={this._handlePatientGender} value="male" ref="male"/>
+                                <input style={editProfileInformationContainerStylesObj} type="radio" name="gender" onChange={this._handlePatientGender} className="profileOptionRadio" value="Male" ref="male"/>
                                     <span style={editProfileInformationContainerStylesObj}> Male</span>
-                                <input style={editProfileInformationContainerStylesObj} type="radio" name="gender" onChange={this._handlePatientGender} value="female" ref="female"/>
+                                <input style={editProfileInformationContainerStylesObj} type="radio" name="gender" onChange={this._handlePatientGender} className="profileOptionRadio" value="Female" ref="female"/>
                                     <span style={editProfileInformationContainerStylesObj}> Female</span>
-                            <p>Injury: {this.props.patientMod.get('injury')}</p>
-                                 <input style={editProfileInformationContainerStylesObj} type="textbox" onChange={this._handlePatientInjury} className="patientInjury" ref="injury"/>
-                                 <img className='profileImg' src={this.props.patientMod.get('patientProfileImg')} />
-                             <input style={editProfileInformationContainerStylesObj} ref="patientProfileImg" type="file" onChange={this._handlePatientProfileImg} />
+                            </div>
+                            <div className="profileOption">
+                                <p>Injury: {this.props.patientMod.get('injury')}</p>
+                                <input style={editProfileInformationContainerStylesObj} type="textbox" onChange={this._handlePatientInjury} className="profileOptionInput" ref="injury"/>
+                            </div>
+                            <div className="profileOption">
+                                
+                                <span style={editProfileInformationContainerStylesObj} >Upload new profile image</span>
+                                <input style={editProfileInformationContainerStylesObj} ref="patientProfileImg" type="file" onChange={this._handlePatientProfileImg} />
+                            </div>
                             <button style={editProfileInformationContainerStylesObj} onClick={this._handleProfileChanges} className="submitProfileChanges">Save</button>
 
 
@@ -802,7 +824,6 @@ function app() {
         _showDaysOfTheWeek: function(dayModel,i) {
             return (
                     <div className="weekday">
-                        <input type="checkbox" className="weekdayCheckbox"/>
                         <ShowDailyExercises dayModel={dayModel} key={i} _updateRightCol={this.props._updateRightCol}/>
                     </div>
                     )
@@ -815,10 +836,11 @@ function app() {
             this.props._updateDayModelShowing(boolean)
         },
         render: function() {
-            console.log(this.props.dayModelShowing)
+            
             return (
                     <div className="daysOfTheWeeK">
-                        <input onChange={this._toggleExercises} className="daysOfTheWeeKCheckbox" type="checkbox"/><span className="showWeekSpan">Show Week</span>
+                        <input onChange={this._toggleExercises} className="daysOfTheWeeKCheckbox" type="checkbox"/>
+                        <span className="showWeekSpan">Show Week</span>
                         {this.props.daysArray.map(this._showDaysOfTheWeek)}
                     </div>
                 )
@@ -826,34 +848,36 @@ function app() {
     })
     var ShowDailyExercises = React.createClass({
         _toggleDay: function() {
+            console.log('change color')
             this.props._updateRightCol(this.props.dayModel)
+            if (this.refs.dailyExerciseContainer.style.background === "rgba(0,0,0,.3)") {
+                this.refs.dailyExerciseContainer.style.background = ''
+            } else this.refs.dailyExerciseContainer.style.background = "rgba(0,0,0,.3)"
         },
         render: function() {
             return (
-                    <div className="allDailyExercises">
-                      <span onClick={this._toggleDay} className="weekdaySpan">{this.props.dayModel.get('id')}</span>
-                      {/* this._showEachExercise(this.props.dayModel) */}
+                    <div onClick={this._toggleDay} ref="dailyExerciseContainer" className="allDailyExercises">
+                      <span  className="weekdaySpan">{this.props.dayModel.get('id')}</span>
                     </div>
                 )
         }
     })
     var ShowIndividualExercise = React.createClass({
-        _deleteExercise: function() {
-            this.props.remove(this.model)
+        _deleteExercise: function(model) {
+            
         },
         _showEachExercise: function(model) {
             var arr = []
             for (var key in this.props.dayModel.attributes) {
                 if (key !== 'id') {
                     var exerciseObject = this.props.dayModel.get(key);
-                    
                     arr.push(exerciseObject)
                 }
             }
             return arr.map(this._makeExercise)
         },
         _makeExercise: function (model) {
-            console.log(model)
+            
                 return (
                     <div className="individualExercise" >
                         <p>Exercise Name: {model.exerciseName}</p>      
@@ -876,6 +900,7 @@ function app() {
             } else {
                 var showExercises = this._showEachExercise(this.props.dayModel)
             }
+            console.log(this.props.dayModel)
             return (
                     <div style={divStylesObj}>
                         {showExercises}
