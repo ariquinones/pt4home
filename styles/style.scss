@@ -3,12 +3,6 @@
 
 
 
-ul, ol {
-    max-width: 80ch;
-    margin-left: 0;
-    margin-right: auto;
-}
-
 /**
  * BOX-SIZING
  */
@@ -189,19 +183,42 @@ body {
         font-size: 1em;
         position: absolute;
         top: 1%;
-        margin: auto;
+        margin: 1%;
         color: white;
         }
         .logoutLink {
             position: absolute;
             top: 1%;
-            right: 1%;
-            margin: auto;
+            right: 0;
+            margin: 1%;
             color: white;
-            text-decoration: none;
+            text-decoration: none;  
+                img {
+                    vertical-align: middle;
+                    margin-left: -110%;
+                    height: 5vh;
+                }
+        }
+        .logoutLink:hover {
+            cursor: pointer;
+        }
+        .profileImg {
+            width: 5%;
+            border-radius: 50%;
+            display: inline-block;
+            margin-top: -3.5%;
+            vertical-align: top;
+                img {
+                    vertical-align: middle;
+                }
         }
 }
-
+.icon {
+    height: 6vh;
+    display: inline-block;
+    margin-left: -98%;
+    vertical-align: middle;
+}
 // Left and Right Col views 
 .rightCol {
     width: 80%;
@@ -219,29 +236,60 @@ body {
     background: rgba(40,48,64,1);
 }
 
-.profileImg {
-    width: 5%;
-    border-radius: 50%;
-    display: inline-block;
-    margin-top: -3.5%;
-    margin-right: 1%;
-    vertical-align: bottom;
+input:focus {
+    outline: none;
 }
-.exerciseImg {
-    width: 10%;
-}
+
 input[type="checkbox"]:hover {
     cursor: pointer;
 }
 
+// Pt view left Column
+.ptsPatientsContainer {
+        .showAllPatientsTitle {
+            margin-left: 5%;
+            color: rgba(142,154,177,1);
+        }
+        .showAllPatientsCheckbox {
+            width: 100%;
+            opacity: 0;
+            vertical-align: middle;
+            height: 6vh;
+        }
+        .showAllPatientsCheckbox:checked ~ .showAllPatientsTitle {
+            color: rgba(60,173,180,1);
+        }
+}
 
- .weekExercisesContainer {
+.addPatientContainer {
+    .addPatientCheckbox {
+        width: 100%;
+        opacity: 0;
+        vertical-align: middle;
+        height: 6vh;
+    }
+    span {
+        margin-left: 5%;
+        color: rgba(142,154,177,1);
+    }
+    .addPatientCheckbox:checked ~ span {
+        color: rgba(60,173,180,1);
+    }
+}
+
+.weekExercisesContainer {
     .addExercise {
         width: 100%;
         opacity: 0;
+        vertical-align: middle;
+        height: 6vh;
     }
     .addWeeksExerciseSpan {
-        margin-left: -95%;
+        margin-left: 5%;
+        color: rgba(142,154,177,1);
+    }
+    .addExercise:checked ~ .addWeeksExerciseSpan {
+        color: rgba(60,173,180,1);
     }
     .addExercise:checked ~ .weeksContainer {
         display: block;
@@ -253,15 +301,15 @@ input[type="checkbox"]:hover {
             opacity: 0;
         }
         .weekTitle {
-            margin-left: -95%;
-            color: white;
-            background: gray;
-            border-radius: 5px;
-            padding: 3%;
+            margin-left: -90%;
+            color: rgba(142,154,177,1);
         }
-         .weekCheckbox:checked ~ .daysContainer {
+        .weekCheckbox:checked ~ .daysContainer {
             display: block;
-         }
+        }
+        .weekCheckbox:checked ~ .weekTitle {
+            color: rgba(60,173,180,1);
+        }
         .daysContainer {
             display: none;
                 .dayOfWeekCheckbox {
@@ -269,137 +317,318 @@ input[type="checkbox"]:hover {
                     opacity: 0;
                 }
                 .dayOfWeek {
-                    margin-left: -90%;
+                    margin-left: -85%;
+                    color: rgba(142,154,177,1);
                 }
-                .dayOfWeekCheckbox:checked ~ .dailyExercises {
-                    display: block;
-                }
-                .dailyExercises {
-                    display: none;
-                    textarea {
-                        height: 5vh;
-                    }
+                .dayOfWeekCheckbox:checked ~ .dayOfWeek {
+                    color: rgba(60,173,180,1);
                 }
         }
-      
     }
-     .patientToReceiveTreatmentContainer {
-        display: none;
-     }
-     .addExercise:checked ~ .patientToReceiveTreatmentContainer {
-        display: block;
-     }
  }
-
-
-.ptsPatientsContainer {
-        .showAllPatientsTitle {
-            margin-left: -95%;
-        }
-        .showAllPatientsCheckbox {
-            width: 100%;
-            opacity: 0;
-        }
-}
-  
-
-.addPatientContainer {
-    .addPatientCheckbox {
-        width: 100%;
-        opacity: 0;
+// Pt Right Column 
+// Add new patient by email right column view 
+.patientToBeAddedContainer {
+    margin: 5% auto;
+    input {
+        border: 1px solid rgba(60,173,180,1);
+        border-radius: 30px;
+        padding: 1%;
+        background: transparent;
     }
-    span {
-        margin-left: -95%;
+    ::-webkit-input-placeholder {
+        color: rgba(23,27,38,.5);
+    }
+    button {
+        display: block;
+        margin: 5% auto;
+        background: rgba(60,173,180,1);
+        color: white;
+        border: none;
+        padding: 1% 5%;
+    }
+    .confirmAddedPatientContainer {
+        background: rgba(0,0,0,.8);
+        padding: 5%;
+        display: block;
+        width: 40%;
+        height: 40vh;
+        margin: auto;
+        position: absolute;
+        top: 25%;
+        left: 60%;
+        transform: translateX(-50%);
+        p {
+            color: white;
+            font-size: 1.5em;
+            width: 90%;
+        }
+        .exitPopUp:hover {
+            cursor: pointer;
+        }
+    }
+}
+.patientToReceiveTreatmentContainer {
+    margin: 5% auto;
+    input {
+        border: 1px solid rgba(60,173,180,1);
+        border-radius: 30px;
+        padding: 1%;
+        background: transparent;
+    }
+    ::-webkit-input-placeholder {
+        color: rgba(23,27,38,.5);
+    }
+}
+.messenger {
+    textarea {
+        margin: auto 1%;
+        width: 45%;
+        padding: .5%;
+        border: 1.5px solid rgba(60,173,180,1);
+        border-radius: 5px;
+        background: rgba(255,255,255,.8)
+    }  
+    textarea:focus {
+        outline: none;
+    }
+    ::-webkit-input-placeholder {
+        color: rgba(23,27,38,.5);
+    }
+    label {
+        display: inline-block;
+        width: 50%;
+    }
+    button {
+        display: block;
+        margin: 5% auto;
+        background: rgba(60,173,180,1);
+        color: white;
+        border: none;
+        padding: 1% 5%;
     }
 }
 
+.popUp {
+    background: rgba(0,0,0,.8);
+    padding: 5%;
+    display: block;
+    width: 40%;
+    height: 40vh;
+    margin: auto;
+    position: absolute;
+    top: 25%;
+    left: 60%;
+    transform: translateX(-50%);
+    p {
+        color: white;
+        font-size: 1.5em;
+        width: 90%;
+    }
+    .exitPopUp:hover {
+        cursor: pointer;
+    }
+}
+// Complete Exercises View 
+.completedExercisesCheckbox:checked ~ .completedExercisesContainer {
+    display: block;
+}
+.completedExercisesContainer {
+    display: none;
+}
 
-// Patient View
-
-
-
+// Left Colum Patient View
 .daysOfTheWeeK {
     .daysOfTheWeeKCheckbox {
         width: 100%;
         opacity: 0;
+        vertical-align: middle;
+        height: 6vh;
     }
     .showWeekSpan {
-        margin-left: -95%;
+        margin-left: 5%;
+        color: rgba(142,154,177,1);
     }
-    .daysOfTheWeeKCheckbox:checked ~ .weekday {
+    .daysOfTheWeeKCheckbox:checked ~ .allDailyExercises {
         display: block;
-        text-align: center;
     }
-    .weekday {
+    .daysOfTheWeeKCheckbox:checked ~ .showWeekSpan {
+        color: rgba(60,173,180,1);
+    }
+    .weekdayCheckbox {
+        opacity: 0;
+        width: 100%;
+    }
+    .weekdaySpan {
+        margin-left: -90%;
+    }
+    // .weekdayCheckbox:checked ~ .weekdaySpan {
+    //     color: rgba(60,173,180,1);
+    // }
+    .allDailyExercises {
+        text-align: left;
+        opacity: .8;
         display: none;
-        .weekdaySpan {
-            margin-left: 10%;
-        }
-        .allDailyExercises {
-            text-align: left; 
-        }
-        .allDailyExercises:hover {
-            cursor: pointer;
-        }
+    }
+    .allDailyExercises:hover {
+        cursor: pointer;
+        opacity: 1;
     }
 } 
 
+// Patient Profile Exercises View Right Column
 
+.individualExercise {
+    text-align: left;
+    width: 100%;
+        p {
+            margin-bottom: 5%;
+            margin-left: 1%;
+        }
+        p+p {
+            text-indent: 0em;
+            margin-top: 0em;
+        }
+        .exerciseImg {
+            width: 10%;
+            border: .5px solid;
+            margin-right: 2.5%;
+        }
+        .exerciseImgShowing {
+            margin-right: 2.5%;
+            vertical-align: top;
+            margin-left: 1%;
+        }
+        button {
+            display: block;
+            margin-left: 1%;
+            background: rgba(60,173,180,1);
+            color: white;
+            border: none;
+            padding: 1% 5%;
+        }
+}
+
+
+// Patient Profile Checkboxes Left Column
+
+.showCurrentProfileCheckbox {
+    width: 100%;
+    opacity: 0;
+    vertical-align: middle;
+    height: 6vh;
+}
+.profileSpan {
+    margin-left: 5%;
+    color: rgba(142,154,177,1);
+}
+
+.showCurrentProfileCheckbox:checked ~ .profileSpan {
+    color: rgba(60,173,180,1);
+}
+  
+// Right column Pt/Patient Profiles View
 .currentProfileInformation {
+    .profileImgContainer {
+        width: 100%;
+        text-align: left;
+            img {
+                width: 10%;
+                margin: auto 5%;
+            }
+            .stylingFileUpload {
+                    position: relative;
+                    margin: 4% auto !important;
+                    display: inline-block !important;
+                    vertical-align: top;
+                button {
+                    position: absolute;
+                    top: 0;
+                    background: transparent;
+                    border: 1px solid rgba(60,173,180,1);
+                    color: rgba(60,173,180,1);
+                }
+                input {
+                    display: block;
+                    margin: auto;
+                    z-index: 2;
+                    opacity: 0;
+                }
+                input:hover {
+                    cursor: pointer;
+                }
+            }
+    }
+    .profileOptionPtBio {
+        display: inline-block;
+        width: 90%;
+        text-align: left;
+        margin-bottom: 3%;
+            p {
+                display: inline-block;
+                color: rgba(166,174,196,1);
+                margin-bottom: 2%;
+            }
+            .ptBioInput {
+                width: 95%;
+                display: block;
+                border: 0;
+                border-bottom: 1px solid rgba(166,174,196,1);
+                background: transparent;
+                padding: 1%;
+                margin: 0 !important;
+            }
+            ::-webkit-input-placeholder {
+                color: rgba(23,27,38,1);
+            }
+    }
     .profileOption {
         display: inline-block;
         width: 45%;
+        text-align: left;
+        margin-bottom: 3%;
             p {
                 display: inline-block;
-                margin: 5%;
+                color: rgba(166,174,196,1);
+                margin-bottom: 2%;
             }
             .profileOptionInput {
-                border-radius: 30px;
-                border: none;
-                background: white;
-                padding: 2%;
-                    ::-webkit-input-placeholder {
-                        color: rgba(0,0,0,.7);
-                    }
+                display: block;
+                border: 0;
+                border-bottom: 1px solid rgba(166,174,196,1);
+                background: transparent;
+                padding: 1%;
+                margin: 0 !important;
             }
             .profileOptionInput:focus {
                 outline: none;
             }
+            ::-webkit-input-placeholder {
+                color: rgba(23,27,38,1);
+            }
+            div {
+                span {
+                    display: inline !important;
+                    margin-right: 5%; 
+                }
+            }
     }
     .profileOptionRadio {
-        display: inline;
+        display: inline !important;
     }
     .submitProfileChanges {
         display: block;
         margin: 5% auto;
+        background: rgba(60,173,180,1);
+        color: white;
+        border: none;
+        padding: 1% 5%;
     }
+  
 }
 
 
-// Left Column Profile Checkboxes 
-      .showCurrentProfileCheckbox {
-        width: 100%;
-        opacity: 0;
-    }
-    .profileSpan {
-        margin-left: -95%;
-    }
-  
-    .editProfileCheckbox {
-        display: none;
-    }
-    .editProfileSpan {
-        display: none;
-    }
-     .showCurrentProfileCheckbox:checked ~ .editProfileCheckbox {
-        display: inline;
-        width: 100%;
-        opacity: 0;
-    }
-     .showCurrentProfileCheckbox:checked ~ .editProfileSpan {
-        display: inline;
-        margin-left: -90%;
-    }
+
 
 
 
