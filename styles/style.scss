@@ -256,14 +256,11 @@ input[type="checkbox"]:hover {
             vertical-align: middle;
             height: 6vh;
         }
-        .showAllPatientsCheckbox:checked ~ .showAllPatientsTitle {
-            color: rgba(60,173,180,1);
-        }
 }
 .ptAllPatients {
         text-align: left;
         padding: 1%;
-        box-shadow: .5px .5px 20px;
+        box-shadow: .5px .5px 20px rgba(0,0,0,.2);
         margin: 2% auto;
         width: 80%;
         .patientImgContainer {
@@ -309,9 +306,6 @@ input[type="checkbox"]:hover {
         margin-left: 5%;
         color: rgba(142,154,177,1);
     }
-    .addPatientCheckbox:checked ~ span {
-        color: rgba(60,173,180,1);
-    }
 }
 
 .weekExercisesContainer {
@@ -324,9 +318,6 @@ input[type="checkbox"]:hover {
     .addWeeksExerciseSpan {
         margin-left: 5%;
         color: rgba(142,154,177,1);
-    }
-    .addExercise:checked ~ .addWeeksExerciseSpan {
-        color: rgba(60,173,180,1);
     }
     .addExercise:checked ~ .weeksContainer {
         display: block;
@@ -489,23 +480,13 @@ input[type="checkbox"]:hover {
     .daysOfTheWeeKCheckbox:checked ~ .weekdaysContainer {
         display: block;
     }
-    .daysOfTheWeeKCheckbox:checked ~ .showWeekSpan {
-        color: rgba(60,173,180,1);
-    }
     .weekdaysContainer {
         display: none;
     }
-    .weekdayCheckbox {
-        opacity: 0;
-        width: 100%;
-        height: 3vh;
-    }
-    .weekdayCheckbox:checked + .weekdaySpan {
-        color: rgba(60,173,180,1);
-    }
     .weekdaySpan {
-        margin-left: -90%;
-        opacity: .8
+        margin-left: 25%;
+        opacity: .8;
+        display: block;
     }
     .weekdaySpan:hover {
         cursor: pointer;
@@ -526,7 +507,7 @@ input[type="checkbox"]:hover {
     width: 95%;
     margin: 1% auto;
     padding: 1%;
-    box-shadow: .5px .5px 20px;
+    box-shadow: .5px .5px 20px rgba(0,0,0,.2);
         p {
             margin-bottom: 0%;
             margin-left: 1%;
@@ -579,9 +560,6 @@ input[type="checkbox"]:hover {
     color: rgba(142,154,177,1);
 }
 
-.showCurrentProfileCheckbox:checked ~ .profileSpan {
-    color: rgba(60,173,180,1);
-}
   
 // Right column Pt/Patient Profiles View
 .currentProfileInformation {
@@ -605,15 +583,20 @@ input[type="checkbox"]:hover {
                     color: rgba(60,173,180,1);
                 }
                 input {
-                    display: block;
+                    display: inline-block;
                     margin: auto;
                     z-index: 2;
                     opacity: 0;
+                    height: 6vh;
                 }
+
                 input:hover {
                     cursor: pointer;
                 }
             }
+    }
+    .profileImgContainer:hover {
+        cursor: pointer;
     }
     .profileOptionPtBio {
         display: inline-block;
@@ -629,13 +612,16 @@ input[type="checkbox"]:hover {
                 width: 95%;
                 display: block;
                 border: 0;
-                border-bottom: 1px solid rgba(166,174,196,1);
                 background: transparent;
                 padding: 1%;
                 margin: 0 !important;
             }
             ::-webkit-input-placeholder {
                 color: rgba(23,27,38,1);
+            }
+            .ptBioInput:focus {
+                outline: none;
+                border-bottom: 1px solid rgba(166,174,196,1);
             }
     }
     .profileOption {
@@ -651,13 +637,13 @@ input[type="checkbox"]:hover {
             .profileOptionInput {
                 display: block;
                 border: 0;
-                border-bottom: 1px solid rgba(166,174,196,1);
                 background: transparent;
                 padding: 1%;
                 margin: 0 !important;
             }
             .profileOptionInput:focus {
                 outline: none;
+                border-bottom: 1px solid rgba(166,174,196,1);
             }
             ::-webkit-input-placeholder {
                 color: rgba(23,27,38,1);
