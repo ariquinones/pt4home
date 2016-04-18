@@ -190,18 +190,26 @@ function app() {
     })
     var ShowAllPatients = React.createClass({
         _showPatient: function(mod, i) {
-            var patientImgStylesObj = {width: "30%"}
             var patientStyleObj = {display: "none"}
             if (this.props.showingPatients) {
-                patientStyleObj = {display: "inline-block", margin: "2%", border: "1px solid black", padding: "2%"}
+                patientStyleObj = {display: 'block'}
             }
             console.log(mod)
             return (
-                    <div style={patientStyleObj}>
-                        <img style={patientImgStylesObj} src={mod.get('patientProfileImg')} />
-                        <p  className="patient" > Name: {mod.get('name')} </p>
-                        <span  className="patient"> Injury: {mod.get('injury')} </span>
-                        <p> Email: {mod.get('email')} </p>
+                    <div className="ptAllPatients" style={patientStyleObj}>
+                        <div className="patientImgContainer">
+                            <img src={mod.get('patientImg')} />
+                        </div>
+                        <div className="patientInformationContainer">
+                            <div>
+                                <p  className="patient" > Name:</p><span> {mod.get('name')} {mod.get('lastName')} </span>
+                                <p  className="patient"> Injury:</p><span>{mod.get('injury')}</span>
+                            </div>
+                            <div>
+                                <p> Email: </p><span>{mod.get('email')}</span>
+                                <p> Phone: </p><span>{mod.get('patientPhone')}</span>
+                            </div>
+                        </div>
                     </div>
                 )
         },
@@ -247,9 +255,12 @@ function app() {
             newPatientQuery.fetch()
             newPatientQuery.once('sync', function() {
                 var patientMod = newPatientQuery.models[0]
-                var patientName = patientMod.get('name')
+                var patientName = patientMod.get('firstName')
+                var patientLastName = patientMod.get('lastName')
                 var patientEmail = patientMod.get('email')
                 var patientInjury = patientMod.get('injury')
+                var patientImg = patientMod.get('patientProfileImg')
+                var patientPhone = patientMod.get('phone')
                 console.log(self.props.ptUid)
                 console.log(ref.getAuth().uid)
                 // var ptMod = new PhysicalTherapistUserModel(self.props.ptUid)
@@ -273,13 +284,23 @@ function app() {
                 console.log(patientsCollForPT)
                 patientsCollForPT.on('sync', function() {
                     console.log('sinked!')
-                    patientsCollForPT.create({id: patientMod.id, name: patientName, email: patientEmail, injury: patientInjury})
+                    patientsCollForPT.create({
+                        id: patientMod.id, 
+                        name: patientName, 
+                        lastName: patientLastName,
+                        email: patientEmail, 
+                        injury: patientInjury,
+                        patientImg: patientImg,
+                        patientPhone: patientPhone,
+                    })
                 })
-                if (this.props.showPatientAdded) {
-                    var boolean = false
-                } else var boolean = true
-                this.props._changeShowPatientAdded(boolean)
+                // if (this.props.showPatientAdded) {
+                //     var boolean = false
+                // } else 
+                var boolean = true
+                self.props._changeShowPatientAdded(boolean)
             })
+            this.refs.patientEmailInput.value= ''
         },
         render: function() {
             var addPatientStyleObj = {display: 'none'}
@@ -288,7 +309,7 @@ function app() {
             }
             return (
                     <div style={addPatientStyleObj} className="patientToBeAddedContainer">
-                            <input onChange={this._updatePatientEmail} placeholder="patient email" className="patientEmail"/>
+                            <input onChange={this._updatePatientEmail} placeholder="patient email" className="patientEmail" ref="patientEmailInput"/>
                             <button onClick={this._addPatient}>Add</button>
                             <ConfirmAddedPatient showPatientAdded={this.props.showPatientAdded} _changeShowPatientAdded={this.props._changeShowPatientAdded} />
                     </div>
@@ -303,6 +324,7 @@ function app() {
             this.props._changeShowPatientAdded(boolean)
         },
         render: function() {
+            console.log(this.props.showPatientAdded)
             var containerStylesObj = {display: 'none'}
             if (this.props.showPatientAdded) {
                 containerStylesObj.display = "block"
@@ -725,6 +747,11 @@ function app() {
                 dayModelShowing: boolean
             })
         },
+        _showDayPicked: function(dayPicked) {
+            this.setState({
+                dayPicked: dayPicked
+            })
+        },
         _updateRightColPatientProfile: function (boolean) {
             this.setState({
                 showPatientProfile: boolean
@@ -768,11 +795,11 @@ function app() {
                             <span className="logoutLink" onClick={this._handleLogout}>log out<img src={('./Images/logoutIcon.svg')}/></span>
                         </div>
                         <div className="leftCol">
-                            <DaysOfTheWeek  _changeColor={this._changeColor} dayModelShowing={this.state.dayModelShowing} _updateDayModelShowing={this._updateDayModelShowing} daysArray={this.props.msgColl.models} _updateRightCol={this._updateRightCol} />
+                            <DaysOfTheWeek _showDayPicked={this._showDayPicked}  _changeColor={this._changeColor} dayModelShowing={this.state.dayModelShowing} _updateDayModelShowing={this._updateDayModelShowing} daysArray={this.props.msgColl.models} _updateRightCol={this._updateRightCol} />
                             <EditPatientProfile  _changeColor={this._changeColor} patientMod={this.props.patientMod} _updateEditPatientProfile={this._updateEditPatientProfile} _updateRightColPatientProfile={this._updateRightColPatientProfile} patientUid={this.props.patientUid} showPatientProfile={this.state.showPatientProfile} />
                         </div>
                         <div className="rightCol">
-                            <ShowIndividualExercise showCompletedExercises={this.state.showCompletedExercises} _showCompletedExercises={this._showCompletedExercises} completeExercises={this.state.completeExercises} _updateStatusOfExercise={this._updateStatusOfExercise} dayModelShowing={this.state.dayModelShowing} dayModel={this.state.dayModel}  />
+                            <ShowIndividualExercise dayPicked={this.state.dayPicked} patientMod={this.props.patientMod} showCompletedExercises={this.state.showCompletedExercises} _showCompletedExercises={this._showCompletedExercises} completeExercises={this.state.completeExercises} _updateStatusOfExercise={this._updateStatusOfExercise} dayModelShowing={this.state.dayModelShowing} dayModel={this.state.dayModel}  />
                             <ShowPatientProfile patientUid={this.props.patientUid} patientMod={this.props.patientMod} _updateEditPatientProfile={this._updateEditPatientProfile} _updateRightColPatientProfile={this._updateRightColPatientProfile} showPatientProfile={this.state.showPatientProfile}  />
                         </div>
 					</div>
@@ -781,6 +808,7 @@ function app() {
         getInitialState: function() {
             return {
                 dayModel: this.props.dayModel,
+                dayPicked: null,
                 dayModelShowing: false,
                 showPatientProfile: false, 
                 incompleteExercises: false,/*<YOUR EXERCISE ARRAY>.filter(function that determines whether exercise is complete)*/
@@ -966,13 +994,28 @@ function app() {
         _toggleColors: function(divToChange) {
             this.props._changeColor(this.refs.containerToChangeColor)
         },
+        _showChosenDay: function(e) {
+            var dayPicked = e.target.value
+            this.props._showDayPicked(dayPicked)
+        },
         render: function() {
             return (
-                    <div  ref="containerToChangeColor" className="daysOfTheWeeK">
+                    <div ref="containerToChangeColor" className="daysOfTheWeeK">
                         <input onClick={this._toggleColors} onChange={this._toggleExercises} className="daysOfTheWeeKCheckbox" type="checkbox"/>
                         <img className="icon" src={('./Images/ptExercisesIcon.svg')}/>
                         <span className="showWeekSpan">Show Week</span>
-                        {this.props.daysArray.map(this._showDaysOfTheWeek)}
+                            <div className="weekdaysContainer">
+                                <input onChange={this._showChosenDay} type="checkbox"  value="Monday" className="weekdayCheckbox"/>
+                                <span className="weekdaySpan">Monday</span>
+                                <input  onChange={this._showChosenDay} type="checkbox"  value="Tuesday" className="weekdayCheckbox"/>
+                                <span  className="weekdaySpan">Tuesday</span>
+                                <input onChange={this._showChosenDay}  type="checkbox"  value="Wednesday" className="weekdayCheckbox"/>
+                                <span className="weekdaySpan">Wednesday</span>
+                                <input onChange={this._showChosenDay}  type="checkbox"  value="Thursday" className="weekdayCheckbox"/>
+                                <span className="weekdaySpan">Thursday</span>
+                                <input onChange={this._showChosenDay}  type="checkbox"  value="Friday" className="weekdayCheckbox"/>
+                                <span className="weekdaySpan">Friday</span>
+                            </div>
                     </div>
                 )
         }
@@ -991,105 +1034,121 @@ function app() {
         }
     })
     var ShowIndividualExercise = React.createClass({
-        _showEachExercise: function(model) {
-            var arr = []
-            for (var key in this.props.dayModel.attributes) {
-                if (key !== 'id') {
-                    var exerciseObject = this.props.dayModel.get(key);
-                    arr.push(exerciseObject)
-                }
-            }
-            return arr.map(this._makeExercise)
+        _toggleCompletion: function(exerciseModel) {
+            var exId = exerciseModel.get('id')
+            console.log(exerciseModel)
+            exerciseModel.set({exId: exerciseModel})
         },
-
-        _toggleCompletion: function(exerciseObj) {
-            var exId = exerciseObj.id
-            this.props.dayModel.set({exId: exerciseObj})
-        },
-
-        _makeExercise: function (exerciseObject) {
-                return (
-                        <IndividualExercise showCompletedExercises={this.props.showCompletedExercises} _toggleCompletion={this._toggleCompletion} completeExercises={this.props.completeExercises} _updateStatusOfExercise={this.props._updateStatusOfExercise} model={exerciseObject} />
-                    )
-        },
-          _showCompletedExercises: function() {
+        _showCompletedExercises: function() {
             if (this.props.showCompletedExercises) {
                 var boolean = false
             } else { var boolean = true}
             this.props._showCompletedExercises(boolean)
         },
-
+        _getEachExercise: function(model, i) {
+            return (
+                    <IndividualExercise showCompletedExercises={this.props.showCompletedExercises} _toggleCompletion={this._toggleCompletion} completeExercises={this.props.completeExercises} _updateStatusOfExercise={this.props._updateStatusOfExercise} model={model} key={i} />
+                )
+        },
         render: function () {
+            if (this.props.dayPicked != null) {
+                var uid = this.props.patientMod.get('id')
+                var dayPickedCollection = new PatientExercises(uid,this.props.dayPicked)
+                var getExercises = dayPickedCollection.map(this._getEachExercise)
+            }
+            else var getExercises = ''
             var divStylesObj = {display: "initial"} 
             if (this.props.dayModelShowing === false) 
                 divStylesObj = {display: 'none'}
-            if (this.props.dayModel === undefined) {
-                var showExercises = ''
-            } else {
-                var showExercises = this._showEachExercise(this.props.dayModel)
-            }
             return (
                     <div style={divStylesObj}>
-                        <button onClick={this._showCompletedExercises}>Show Completed Exercises</button>
-                        {showExercises}
-                       
+                        <button className="showCompletedExercisesButton" onClick={this._showCompletedExercises}>Show Completed Exercises</button>
+                        {getExercises}
                     </div>
                 )
         }
     })
+
     var IndividualExercise = React.createClass({
         _changeExerciseStatus: function() {
-            if (this.props.model.done === false) {
-                this.props.model.done =  true
+            if (this.props.model.attributes.done === false) {
+                //this.props.model.attributes.done =  true
+                this.props.model.set({done: true})
             }
             console.log(this.props.model)
             // if (this.props.complete) {
             //     var boolean = false
             // } else { var boolean = true}
-            this.props._toggleCompletion(this.props.model)
-            this.props._updateStatusOfExercise(this.props.model)
+            //this.props._toggleCompletion(this.props.model)
+            // this.props._updateStatusOfExercise(this.props.model)
         },
-      
         render: function () {
             var model = this.props.model 
+            
+            if (!this.props.model.get('exerciseName')) {
+                console.log(this.props.model)
+                var ghostModelStyle = {display: 'none'}
+            }
             var completeExerciseStyleObj = {display: "block"}
             var imgShowingStylesObj = {display: 'none'}
-            if (this.props.model.done === true) {
+            if (this.props.model.attributes.done === true) {
                 completeExerciseStyleObj.display = "none"
             }
-            if (this.props.model.beforeImg && this.props.model.afterImg) {
-                imgShowingStylesObj.display = "inline-block"
+            if (this.props.model.attributes.beforeImg && this.props.model.attributes.afterImg) {
+                imgShowingStylesObj.display = "block"
             }
             return (
                     <div  >
                         <div style={completeExerciseStyleObj} className="individualExercise" >
-                            <p>Exercise Name: {model.exerciseName}</p>      
-                            <p>Exercise Description: {model.exerciseDescription}</p>
-                            <p>Exercise Sets/Reps: {model.exerciseSets}/{model.exerciseReps} </p>
-                            <span className="exerciseImgShowing" style={imgShowingStylesObj} >Before</span><img className="exerciseImg" src={model.beforeImg}/>
-                            <span className="exerciseImgShowing" style={imgShowingStylesObj}>After</span><img className="exerciseImg" src={model.afterImg}/>
+                            <p>Exercise</p><span> {model.attributes.exerciseName}</span>      
+                            <p>Description</p><span> {model.attributes.exerciseDescription}</span>
+                            <p>Sets/Reps</p><span> {model.attributes.exerciseSets}/{model.attributes.exerciseReps} </span>
+                            <div style={imgShowingStylesObj}>
+                            <span className="exerciseImgShowing">Before</span><img className="exerciseImg" src={model.attributes.beforeImg}/>
+                            <span className="exerciseImgShowing">After</span><img className="exerciseImg" src={model.attributes.afterImg}/>
+                            </div>
                             <button onClick={this._changeExerciseStatus}>Complete</button>
+                            <TrackProgress />
                         </div>
-                        <CompletedExercises showCompletedExercises={this.props.showCompletedExercises} exerciseObj={this.props.model} />
+                        <CompletedExercises showCompletedExercises={this.props.showCompletedExercises} exerciseModel={this.props.model} />
                     </div>                 
                 )
             }
     })
     var CompletedExercises = React.createClass({
         render: function() {
+            var model = this.props.exerciseModel 
             var completedExercisesStylesObj = {display: 'none'}
             if (this.props.showCompletedExercises) {
                 completedExercisesStylesObj.display = "block"
             }
-            //<input type="checkbox" className="completedExercisesCheckbox"/>
+            var imgShowingStylesObj = {display: 'none'}
+            if (this.props.exerciseModel.attributes.beforeImg && this.props.exerciseModel.attributes.afterImg) {
+                imgShowingStylesObj.display = "block"
+            }
             return (
-                        <div style={completedExercisesStylesObj} className="completedExercisesContainer">
-                            <p>{this.props.exerciseObj.exerciseName}</p>
-                            <p>{this.props.exerciseObj.exerciseDescription}</p>
-                        </div>                )
+                        <div style={completedExercisesStylesObj} className="individualExercise">
+                            <p>Exercise</p><span> {model.attributes.exerciseName}</span>      
+                            <p>Description</p><span> {model.attributes.exerciseDescription}</span>
+                            <p>Sets/Reps</p><span> {model.attributes.exerciseSets}/{model.attributes.exerciseReps} </span>
+                            <div style={imgShowingStylesObj}>
+                                <span className="exerciseImgShowing">Before</span><img className="exerciseImg" src={model.attributes.beforeImg}/>
+                                <span className="exerciseImgShowing">After</span><img className="exerciseImg" src={model.attributes.afterImg}/>
+                            </div>
+                        </div>                
+                    )
         }
     })
-
+    var TrackProgress = React.createClass({
+        render: function() {
+            return (
+                        <div className="trackProgress">
+                            <p>Choose Pain:</p>
+                            <p>Choose Functionality:</p>
+                        </div>
+                    )
+        }
+    })
     var PhysicalTherapistUserModel = Backbone.Firebase.Model.extend({
     	initialize: function(uid) {
     		this.url = `http://pt4home.firebaseio.com/pts/${uid}`
@@ -1125,7 +1184,11 @@ function app() {
         this.url = `http://pt4home.firebaseio.com/patients/${uid}/exercises`
         }
     })
-
+    var PatientExercises = Backbone.Firebase.Collection.extend({
+        initialize: function(uid,dayOfWeek) {
+            this.url = `http://pt4home.firebaseio.com/patients/${uid}/exercises/${dayOfWeek}`
+        }
+    })
     var AppRouter = Backbone.Router.extend({
     	routes: {
     		'splash': "showSplashPage",

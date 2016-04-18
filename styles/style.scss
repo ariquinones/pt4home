@@ -226,7 +226,7 @@ body {
     vertical-align: top;
     text-align: center;
     background: rgba(230,237,243,1);
-    height: 100vh;
+    min-height: 100vh;
 }
 .leftCol {
     height: 100vh;
@@ -258,6 +258,43 @@ input[type="checkbox"]:hover {
         }
         .showAllPatientsCheckbox:checked ~ .showAllPatientsTitle {
             color: rgba(60,173,180,1);
+        }
+}
+.ptAllPatients {
+        text-align: left;
+        padding: 1%;
+        box-shadow: .5px .5px 20px;
+        margin: 2% auto;
+        width: 80%;
+        .patientImgContainer {
+            margin-left: 2%;
+            display: inline-block;
+            width: 25%;
+            vertical-align: middle;
+            text-align: center;
+                img {
+                    width: 50%;
+                }
+        }
+        .patientInformationContainer {
+            display: inline-block;
+            vertical-align: middle;
+            width: 70%;
+            div {
+                display: inline-block;
+                width: 50%;
+            }
+            p+p {
+                text-indent: 0;
+            }
+            p {
+                opacity: .7;
+                margin: 0;
+            }
+            span {
+                margin-left: 1%;
+            }
+
         }
 }
 
@@ -449,45 +486,64 @@ input[type="checkbox"]:hover {
         margin-left: 5%;
         color: rgba(142,154,177,1);
     }
-    .daysOfTheWeeKCheckbox:checked ~ .allDailyExercises {
+    .daysOfTheWeeKCheckbox:checked ~ .weekdaysContainer {
         display: block;
     }
     .daysOfTheWeeKCheckbox:checked ~ .showWeekSpan {
         color: rgba(60,173,180,1);
     }
+    .weekdaysContainer {
+        display: none;
+    }
     .weekdayCheckbox {
         opacity: 0;
         width: 100%;
+        height: 3vh;
+    }
+    .weekdayCheckbox:checked + .weekdaySpan {
+        color: rgba(60,173,180,1);
     }
     .weekdaySpan {
         margin-left: -90%;
+        opacity: .8
     }
-    // .weekdayCheckbox:checked ~ .weekdaySpan {
-    //     color: rgba(60,173,180,1);
-    // }
-    .allDailyExercises {
-        text-align: left;
-        opacity: .8;
-        display: none;
-    }
-    .allDailyExercises:hover {
+    .weekdaySpan:hover {
         cursor: pointer;
         opacity: 1;
     }
 } 
 
 // Patient Profile Exercises View Right Column
-
+.showCompletedExercisesButton {
+    background: rgba(60,173,180,1);
+    color: white;
+    border: none;
+    padding: 1% 5%;
+    margin: 1% auto;
+}
 .individualExercise {
     text-align: left;
-    width: 100%;
+    width: 95%;
+    margin: 1% auto;
+    padding: 1%;
+    box-shadow: .5px .5px 20px;
         p {
-            margin-bottom: 5%;
+            margin-bottom: 0%;
             margin-left: 1%;
+            opacity: .7;
+        }
+        span {
+            margin-left: 2%;
         }
         p+p {
             text-indent: 0em;
             margin-top: 0em;
+        }
+        div {
+            display: block;
+            span {
+                opacity: .7;
+            }
         }
         .exerciseImg {
             width: 10%;
