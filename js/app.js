@@ -1077,7 +1077,7 @@ function app() {
                             <span className="exerciseImgShowing">After</span><img className="exerciseImg" src={model.attributes.afterImg}/>
                             </div>
                             <button onClick={this._changeExerciseStatus}>Complete</button>
-                            <TrackProgress />
+                            
                         </div>
                         <CompletedExercises showCompletedExercises={this.props.showCompletedExercises} exerciseModel={this.props.model} />
                     </div>                 
