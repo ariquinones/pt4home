@@ -649,10 +649,10 @@ input[type="checkbox"]:hover {
                 background: transparent;
                 padding: 1%;
                 margin: 0 !important;
+                border-bottom: 1px solid rgba(166,174,196,1);
             }
             .profileOptionInput:focus {
                 outline: none;
-                border-bottom: 1px solid rgba(166,174,196,1);
             }
             ::-webkit-input-placeholder {
                 color: rgba(23,27,38,1);
