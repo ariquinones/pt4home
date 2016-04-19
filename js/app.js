@@ -132,12 +132,12 @@ function app() {
                         <div className="leftCol">
                             <ShowPatientsInput view={this.state.view} _viewUpdater={this._viewUpdater} _changeColor={this._changeColor} patientsArray={this.props.ptMod}  _updateShowPatients={this._updateShowPatients}/>
                             <AddPatientInput view={this.state.view} _viewUpdater={this._viewUpdater} _changeColor={this._changeColor} showingAddPatient={this.state.showingAddPatient} _updateAddPatient={this._updateAddPatient} />
-                            <WeekList view={this.state.view} _viewUpdater={this._viewUpdater} _changeColor={this._changeColor} dailyExercisesDayShowing={this.state.dailyExercisesDayShowing} _updatePatientTargetEmail={this._updatePatientTargetEmail} showingPatientTargetEmail={this.state.showingPatientTargetEmail} _updateDailyExercises={this._updateDailyExercises} />
+                            <WeekList view={this.state.view} _viewUpdater={this._viewUpdater} _changeColor={this._changeColor} dailyExercisesDayShowing={this.state.dailyExercisesDayShowing} _updatePatientTargetEmail={this._updatePatientTargetEmail} showingPatientTargetEmail={this.state.showingPatientTargetEmail} _updateDailyExercises={this._updateDailyExercises} dailyExercisesDay={this.state.dailyExercisesDay} />
                             <PTprofileInput view={this.state.view} _viewUpdater={this._viewUpdater} _changeColor={this._changeColor} _updateShowPtEditProfile={this._updateShowPtEditProfile} ptUid={this.props.ptUid} ptMod={this.props.ptName} _updateShowPtProfile={this._updateShowPtProfile} />
                         </div>
                         <div className="rightCol">
                             <ShowAllPatients view={this.state.view} patientsArray={this.props.ptMod} />
-                            <AddNewPatientView view={this.state.view}  showPatientAdded={this.state.showPatientAdded} _changeShowPatientAdded={this._changeShowPatientAdded} showingAddPatient={this.state.showingAddPatient} ptUid={this.props.ptUid} />
+                            <AddNewPatientView view={this.state.view}  showPatientAdded={this.state.showPatientAdded} _changeShowPatientAdded={this._changeShowPatientAdded} showingAddPatient={this.state.showingAddPatient} ptUid={this.props.ptUid} ptModel={this.props.ptName}/>
                             <ShowAddingWeekExercises view={this.state.view} showingPatientTargetEmail={this.state.showingPatientTargetEmail} />
                             <DailyExercises view={this.state.view} _changeShowSentExercise={this._changeShowSentExercise} showSentExercise={this.state.showSentExercise} dailyExercisesDayShowing={this.state.dailyExercisesDayShowing} dailyExercisesDay={this.state.dailyExercisesDay} />
                             <ShowPtProfile view={this.state.view} ptUid={this.props.ptUid} ptMod={this.props.ptName} />
@@ -183,19 +183,23 @@ function app() {
     })
     var ShowAllPatients = React.createClass({
         _showPatient: function(mod, i) {
+            var patientGhost = {}
+            if (!mod.attributes.firstName) {
+                patientGhost.display = "none"
+            }
             return (
-                    <div className="ptAllPatients" >
+                    <div style={patientGhost} className="ptAllPatients" >
                         <div className="patientImgContainer">
                             <img src={mod.get('patientProfileImg')} />
                         </div>
                         <div className="patientInformationContainer">
                             <div>
-                                <p  className="patient" > Name:</p><span> {mod.get('name')} {mod.get('lastName')} </span>
+                                <p  className="patient" > Name:</p><span> {mod.get('firstName')} {mod.get('lastName')} </span>
                                 <p  className="patient"> Injury:</p><span>{mod.get('injury')}</span>
                             </div>
                             <div>
                                 <p> Email: </p><span>{mod.get('email')}</span>
-                                <p> Phone: </p><span>{mod.get('patientPhone')}</span>
+                                <p> Phone: </p><span>{mod.get('phone')}</span>
                             </div>
                         </div>
                     </div>
@@ -253,10 +257,16 @@ function app() {
         _addPatient: function () {
             var newPatientQuery = new QueryByEmail(this.patientEmail)
             var self = this 
+            var physicalTherapistFirstName = this.props.ptModel.get('firstName')
+            var physicalTherapistLastName = this.props.ptModel.get('lastName')
             newPatientQuery.fetch()
             newPatientQuery.once('sync', function() {
                 var patientMod = newPatientQuery.models[0]
-                patientMod.set({pt_uid: ref.getAuth().uid})
+                patientMod.set({
+                    pt_uid: ref.getAuth().uid,
+                    pt_firstName: physicalTherapistFirstName,
+                    pt_lastName: physicalTherapistLastName,
+                })
                 // var patientName = patientMod.get('firstName')
                 // var patientLastName = patientMod.get('lastName')
                 // var patientEmail = patientMod.get('email')
@@ -523,20 +533,26 @@ function app() {
         render: function () {
             var colorStyleObj = {}
             var divStyleObj = {}
+            var dropDownWeek = {}
             if (this.props.view === 'addExercisesView') {
                 colorStyleObj.color = 'rgba(60,173,180,1)'
                 divStyleObj.background = 'black'
+                dropDownWeek.display = "block"
             }
+            if (this.props.view != 'addExercisesView') {
+                dropDownWeek.display = "none"
+            }
+
             return (
                     <div onClick={this._toggleColors} style={divStyleObj} className="weekExercisesContainer">
                         <input onChange={this._togglePatientTargetEmail} type="checkbox" className="addExercise"/>
                         <img className="icon" src={('./Images/ptExercisesIcon.svg')}/>
                         <span style={colorStyleObj} className="addWeeksExerciseSpan">Add Exercises</span>
                         <div className="weeksContainer">
-                            <div  ref="containerToChangeColor" >
+                            <div style={dropDownWeek} ref="containerToChangeColor" >
                                 <input type="checkbox" className="weekCheckbox"/>
                                 <span className="weekTitle">Week:</span>
-                                    <DayList dailyExercisesDayShowing={this.props.dailyExercisesDayShowing} _updateDailyExercises={this.props._updateDailyExercises} patientEmail={window.targetEmail} />
+                                    <DayList dailyExercisesDay={this.props.dailyExercisesDay} dailyExercisesDayShowing={this.props.dailyExercisesDayShowing} _updateDailyExercises={this.props._updateDailyExercises} patientEmail={window.targetEmail} />
                             </div>
                         </div>
                     </div>
@@ -545,40 +561,31 @@ function app() {
     })
     var DayList = React.createClass({
         _toggleDailyExercises: function(e) {
-            var day = e.target.value
-            if (this.props.dailyExercisesDayShowing) {
-                var boolean = false
-            } else var boolean = true
+            var day = e.target.textContent
+            //console.log('day', day)
+            // if (this.props.dailyExercisesDayShowing) {
+            //     var boolean = false
+            // } else 
+            var boolean = true
             this.props._updateDailyExercises(day,boolean)
         },
         render: function() {
+            //console.log(this.props.dailyExercisesDay)
+            if (this.props.dailyExercisesDay != null) {
+                var currentDay = this.props.dailyExercisesDay
+            }
+            var exerciseWeek = function(mod, i) {
+                var dayOfWeekStyleObj = {}
+                if (mod === currentDay) dayOfWeekStyleObj.color = 'rgba(60,173,180,1)'
+                return (
+                         <div>
+                            <span  style={dayOfWeekStyleObj} key={i} className="dayOfWeek">{mod}</span>
+                        </div>
+                    )
+            }
             return (
-                    <div className="daysContainer">
-                        <div>
-                            <input onChange={this._toggleDailyExercises} type="checkbox" value="Monday" className="dayOfWeekCheckbox"/>
-                            <span className="dayOfWeek">Monday</span>
-                          
-                        </div>
-                         <div>
-                            <input onChange={this._toggleDailyExercises} type="checkbox" value="Tuesday" className="dayOfWeekCheckbox"/>
-                            <span className="dayOfWeek">Tuesday</span>
-                         
-                        </div>
-                         <div>
-                            <input onChange={this._toggleDailyExercises} type="checkbox" value="Wednesday" className="dayOfWeekCheckbox"/>
-                            <span className="dayOfWeek">Wednesday</span>
-                             
-                        </div>
-                         <div>
-                            <input onChange={this._toggleDailyExercises} type="checkbox" value="Thursday" className="dayOfWeekCheckbox"/>
-                            <span className="dayOfWeek">Thursday</span>
-                        
-                        </div>
-                         <div>
-                            <input onChange={this._toggleDailyExercises} type="checkbox" value="Friday" className="dayOfWeekCheckbox"/>
-                            <span className="dayOfWeek">Friday</span>
-                            
-                        </div>
+                    <div onClick={this._toggleDailyExercises} className="daysContainer">
+                       {["Monday","Tuesday","Wednesday","Thursday","Friday"].map(exerciseWeek)}
                     </div>
                     )
         }
@@ -667,12 +674,12 @@ function app() {
         },
         render: function() {
             var messengerStylesObj = {display:'none'}
-            if (this.props.dailyExercisesDayShowing) {
+            if (this.props.dailyExercisesDayShowing && this.props.view === 'addExercisesView') {
                 messengerStylesObj = {display: 'block'}
             }
-
             return (
                     <div style={messengerStylesObj} className="messenger">
+                        <p className="dailyExerciseDay" >Exercise being sent for: {this.props.dailyExercisesDay} </p>
                         <textarea ref="exName" onChange={this._updateExerciseName} placeholder="Exercise Name" className="exName"/>
                         <textarea ref="exDescr" onChange={this._updateExerciseDescription} placeholder="Exercise Description" className="exDescription"/>
                         <textarea ref="exReps" onChange={this._updateReps} placeholder="Number of reps" className="exReps" />
@@ -775,7 +782,7 @@ function app() {
                             <div className='profileImg'>
                                 <img src={this.props.patientMod.get('patientProfileImg')} />
                             </div>
-                            <span className="welcomeMsg" >Hello, {this.props.patientMod.get('name')}</span>
+                            <span className="welcomeMsg" >Hello, {this.props.patientMod.get('firstName')}</span>
                             <span className="logoutLink" onClick={this._handleLogout}>log out<img src={('./Images/logoutIcon.svg')}/></span>
                         </div>
                         <div className="leftCol">
@@ -1119,7 +1126,7 @@ function app() {
     	initialize: function(uid) {
     		this.url = `http://pt4home.firebaseio.com/pts/${uid}`
     	},
-        autosyn: true
+        autoSync: true
     })
     var PTpatientsCollection = Backbone.Firebase.Collection.extend({
         initialize: function(uid) {
@@ -1175,7 +1182,7 @@ function app() {
     				location.hash = "splash"
     		})
     	},
-    	_createPTuser: function(email,password,realName) {
+    	_createPTuser: function(email,password) {
     		// console.log(email, password)
     		var self = this
     		this.ref.createUser({
@@ -1187,7 +1194,6 @@ function app() {
     					console.log(authData)
     					var ptMod = new PhysicalTherapistUserModel(authData.uid)
     					ptMod.set({
-    	    						name: realName,
     	    						email: email,
     	    						id: authData.uid,
                                     patients: [],
@@ -1197,7 +1203,7 @@ function app() {
     			self._loginPtUser(email, password)
     		})
     	},
-    	_createPatientUser: function(email,password,realName) {
+    	_createPatientUser: function(email,password) {
     		var self = this
     		this.ref.createUser({
     			email: email,
@@ -1208,7 +1214,6 @@ function app() {
     					console.log(authData)
     					var patientMod = new PatientUserModel(authData.uid)
     					patientMod.set({
-	    						name: realName,
 	    						email: email,
 	    						id: authData.uid,
                                 patientProfileImg: './Images/profileImgPlaceholder.svg'

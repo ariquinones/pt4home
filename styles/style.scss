@@ -264,19 +264,19 @@ input[type="checkbox"]:hover {
         margin: 2% auto;
         width: 80%;
         .patientImgContainer {
-            margin-left: 2%;
             display: inline-block;
             width: 25%;
             vertical-align: middle;
             text-align: center;
                 img {
                     width: 50%;
+                    border-radius: 50%;
                 }
         }
         .patientInformationContainer {
             display: inline-block;
             vertical-align: middle;
-            width: 70%;
+            width: 74%;
             div {
                 display: inline-block;
                 width: 50%;
@@ -319,17 +319,17 @@ input[type="checkbox"]:hover {
         margin-left: 5%;
         color: rgba(142,154,177,1);
     }
-    .addExercise:checked ~ .weeksContainer {
-        display: block;
-    }
+    // .addExercise:checked ~ .weeksContainer {
+    //     display: block;
+    // }
     .weeksContainer {
-        display: none;
+        
         .weekCheckbox {
             width: 100%;
             opacity: 0;
         }
         .weekTitle {
-            margin-left: -90%;
+            margin-left: -95%;
             color: rgba(142,154,177,1);
         }
         .weekCheckbox:checked ~ .daysContainer {
@@ -345,12 +345,15 @@ input[type="checkbox"]:hover {
                     opacity: 0;
                 }
                 .dayOfWeek {
-                    margin-left: -85%;
+                    margin-left: 5%;
                     color: rgba(142,154,177,1);
                 }
-                .dayOfWeekCheckbox:checked ~ .dayOfWeek {
-                    color: rgba(60,173,180,1);
+                .dayOfWeek:hover {
+                    cursor: pointer;
                 }
+                // .dayOfWeekCheckbox:checked ~ .dayOfWeek {
+                //     color: rgba(60,173,180,1);
+                // }
         }
     }
  }
@@ -409,6 +412,12 @@ input[type="checkbox"]:hover {
     }
 }
 .messenger {
+    .dailyExerciseDay {
+        text-align: left;
+        opacity: .8;
+        font-size: 1em;
+        margin-left: 5%;
+    }
     textarea {
         margin: auto 1%;
         width: 45%;
