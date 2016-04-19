@@ -137,8 +137,8 @@ body {
         background: rgba(60,173,180,.8);
         border-radius: 10px;
         border: none;
-        margin: auto 10%;
-        padding: 1%;
+        margin: auto 5%;
+        padding: 1% 2%;
     }
 }
 // Login Screen 
@@ -624,13 +624,14 @@ input[type="checkbox"]:hover {
                 background: transparent;
                 padding: 1%;
                 margin: 0 !important;
+                border-bottom: 1px solid rgba(166,174,196,1);
             }
             ::-webkit-input-placeholder {
                 color: rgba(23,27,38,1);
             }
             .ptBioInput:focus {
                 outline: none;
-                border-bottom: 1px solid rgba(166,174,196,1);
+                
             }
     }
     .profileOption {
@@ -651,11 +652,11 @@ input[type="checkbox"]:hover {
                 margin: 0 !important;
                 border-bottom: 1px solid rgba(166,174,196,1);
             }
-            .profileOptionInput:focus {
-                outline: none;
-            }
+            // .profileOptionInput:focus {
+            //     outline: none;
+            // }
             ::-webkit-input-placeholder {
-                color: rgba(23,27,38,1);
+                color: rgba(23,27,38,.8);
             }
             div {
                 span {

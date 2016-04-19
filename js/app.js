@@ -459,23 +459,23 @@ function app() {
                             </div>
                             <div className="profileOption">
                                 <p>Last Name</p>
-                                    <input  value={this.props.ptMod.get('lastName')} type="textbox" onChange={this._handlePtLastName} className="profileOptionInput" ref="ptLastName" />
+                                    <input  placeholder={this.props.ptMod.get('lastName')} type="textbox" onChange={this._handlePtLastName} className="profileOptionInput" ref="ptLastName" />
                             </div>
                             <div className="profileOption">
-                                <p>First Name {this.props.ptMod.get('firstName')}</p>
-                                    <input value={this.props.ptMod.get('firstName')} type="textbox" onChange={this._handlePtFirstName} className="profileOptionInput" ref="ptFirstName"/>
+                                <p>First Name</p>
+                                    <input placeholder={this.props.ptMod.get('firstName')} type="textbox" onChange={this._handlePtFirstName} className="profileOptionInput" ref="ptFirstName"/>
                             </div>
                             <div className="profileOption">
                                 <p>Phone </p>
-                                     <input value={this.props.ptMod.get('phone')} type="textbox" onChange={this._handlePtPhone}  className="profileOptionInput" ref="ptPhone"/>
+                                     <input placeholder={this.props.ptMod.get('phone')} type="textbox" onChange={this._handlePtPhone}  className="profileOptionInput" ref="ptPhone"/>
                             </div>
                             <div className="profileOption">
                                 <p>Email</p>
-                                <input value={this.props.ptMod.get('email')} type="textbox" onChange={this._handlePtPhone}  className="profileOptionInput" ref="ptPhone"/>
+                                <input placeholder={this.props.ptMod.get('email')} type="textbox" onChange={this._handlePtPhone}  className="profileOptionInput" ref="ptPhone"/>
                             </div>
                             <div className="profileOption">
                                 <p>Specialty</p>
-                                     <input value={this.props.ptMod.get('specialty')} type="textbox" onChange={this._handlePtSpeciatly} className="profileOptionInput" ref="ptSpecialty"/>
+                                     <input placeholder={this.props.ptMod.get('specialty')} type="textbox" onChange={this._handlePtSpeciatly} className="profileOptionInput" ref="ptSpecialty"/>
                             </div>
                             <div className="profileOption">
                             <p>Gender: {this.props.ptMod.get('gender')}</p>
@@ -490,7 +490,7 @@ function app() {
                             </div>
                             <div className="profileOptionPtBio">
                                 <p>Bio</p>
-                                    <input value= {this.props.ptMod.get('bio')} type="textbox" onChange={this._handlePtBio} className="profileOptionInput ptBioInput" ref="ptBio"/>
+                                    <input placeholder= {this.props.ptMod.get('bio')} type="textbox" onChange={this._handlePtBio} className="profileOptionInput ptBioInput" ref="ptBio"/>
                             </div>
                             <button onClick={this._handleProfileChanges} className="submitProfileChanges">Save</button>
                     </div>
@@ -758,6 +758,11 @@ function app() {
                 showCompletedExercises: boolean
             })
         },
+        _completeButtonShowing: function(boolean) {
+            this.setState({
+                showCompleteButton: boolean
+            })
+        },
         _changeColor: function(divToChange) {
             // var targetToChange = e.target
             // console.log(targetToChange)
@@ -790,7 +795,7 @@ function app() {
                             <EditPatientProfile view={this.state.view} _viewUpdater={this._viewUpdater} _changeColor={this._changeColor} patientMod={this.props.patientMod} _updateEditPatientProfile={this._updateEditPatientProfile} _updateRightColPatientProfile={this._updateRightColPatientProfile} patientUid={this.props.patientUid} showPatientProfile={this.state.showPatientProfile} />
                         </div>
                         <div className="rightCol">
-                            <ShowIndividualExercise view={this.state.view} dayPicked={this.state.dayPicked} patientMod={this.props.patientMod} showCompletedExercises={this.state.showCompletedExercises} _showCompletedExercises={this._showCompletedExercises} completeExercises={this.state.completeExercises} _updateStatusOfExercise={this._updateStatusOfExercise} dayModelShowing={this.state.dayModelShowing} dayModel={this.state.dayModel}  />
+                            <ShowIndividualExercise view={this.state.view} dayPicked={this.state.dayPicked} showCompleteButton={this.state.showCompleteButton} _completeButtonShowing={this._completeButtonShowing} patientMod={this.props.patientMod} showCompletedExercises={this.state.showCompletedExercises} _showCompletedExercises={this._showCompletedExercises} completeExercises={this.state.completeExercises} _updateStatusOfExercise={this._updateStatusOfExercise} dayModelShowing={this.state.dayModelShowing} dayModel={this.state.dayModel}  />
                             <ShowPatientProfile view={this.state.view} patientUid={this.props.patientUid} patientMod={this.props.patientMod} _updateEditPatientProfile={this._updateEditPatientProfile} _updateRightColPatientProfile={this._updateRightColPatientProfile} showPatientProfile={this.state.showPatientProfile}  />
                         </div>
 					</div>
@@ -804,6 +809,7 @@ function app() {
                 completeExercises: false,
                 showCompletedExercises: false, 
                 view: null,
+                showCompleteButton: false,
             }
         }
 	})
@@ -925,23 +931,23 @@ function app() {
                             </div>
                             <div className="profileOption">
                             <p>First Name</p>
-                                <input value={this.props.patientMod.get('firstName')} type="textbox" onChange={this._handlePatientFirstName} className="profileOptionInput" ref="patientFirstName"/>
+                                <input placeholder={this.props.patientMod.get('firstName')} type="textbox" onChange={this._handlePatientFirstName} className="profileOptionInput" ref="patientFirstName"/>
                             </div>
                             <div className="profileOption">
                                 <p>Last Name </p>
-                                    <input value={this.props.patientMod.get('lastName')} type="textbox" onChange={this._handlePatientLastName} className="profileOptionInput" ref="patientLastName"/>
+                                    <input placeholder={this.props.patientMod.get('lastName')} type="textbox" onChange={this._handlePatientLastName} className="profileOptionInput" ref="patientLastName"/>
                             </div>
                             <div className="profileOption">
                                 <p>Email</p>
-                                <input  value={this.props.patientMod.get('email')} type="textbox" onChange={this._handlePatientEmail} className="profileOptionInput" ref="patientEmail" />
+                                <input  placeholder={this.props.patientMod.get('email')} type="textbox" onChange={this._handlePatientEmail} className="profileOptionInput" ref="patientEmail" />
                             </div>
                             <div className="profileOption">
                             <p>Phone </p>
-                                <input value={this.props.patientMod.get('phone')} type="textbox" onChange={this._handlePatientPhone} className="profileOptionInput" ref="patientPhone" />
+                                <input placeholder={this.props.patientMod.get('phone')} type="textbox" onChange={this._handlePatientPhone} className="profileOptionInput" ref="patientPhone" />
                             </div>
                              <div className="profileOption">
                                 <p>Injury</p>
-                                <input  value={this.props.patientMod.get('injury')} type="textbox" onChange={this._handlePatientInjury} className="profileOptionInput" ref="injury"/>
+                                <input  placeholder={this.props.patientMod.get('injury')} type="textbox" onChange={this._handlePatientInjury} className="profileOptionInput" ref="injury"/>
                             </div>
                             <div className="profileOption">
                             <p>Gender: {this.props.patientMod.get('gender')}</p>
@@ -956,7 +962,7 @@ function app() {
                             </div>
                            
                             
-                            <button onClick={this._handleProfileChanges} className="submitProfileChanges">Update Profile</button>
+                            <button onClick={this._handleProfileChanges} className="submitProfileChanges">Save</button>
 
 
                             
@@ -1013,26 +1019,45 @@ function app() {
             } else { var boolean = true}
             this.props._showCompletedExercises(boolean)
         },
+         _showCompleteButton: function(model) {
+            console.log('complete exercise')
+            if (model.get('done')) {
+                var boolean = true 
+                this.props._completeButtonShowing(boolean) 
+            }
+        },
         _getEachExercise: function(model, i) {
+            console.log('working')
             return (
                     <IndividualExercise showCompletedExercises={this.props.showCompletedExercises} _toggleCompletion={this._toggleCompletion} completeExercises={this.props.completeExercises} _updateStatusOfExercise={this.props._updateStatusOfExercise} model={model} key={i} />
                 )
         },
         render: function () {
+            //if (this.props.dayPicked === null) 
+            var noExercisesYetStyleObj = {display: 'none'} 
+            var divStylesObj = {display: "none"} 
+            var noCompletedExercisesExistStyleObj = {display: "block"}
+
             if (this.props.dayPicked != null) {
                 var uid = this.props.patientMod.get('id')
                 var dayPickedCollection = new PatientExercises(uid,this.props.dayPicked)
                 var getExercises = dayPickedCollection.map(this._getEachExercise)
-            }
-            else var getExercises = ''
-            var divStylesObj = {display: "none"} 
+                //console.log(dayPickedCollection)
+                if (dayPickedCollection.length === 1) {
+                    noExercisesYetStyleObj.display = "block"
+                    noCompletedExercisesExistStyleObj.display = "none"
+                } 
+            } else {
+                    var getExercises = ''
+                    noCompletedExercisesExistStyleObj.display = "none"
+                }
             if (this.props.view === "showExercises") {
-                divStylesObj.display = "block"
-                divStylesObj.color = 'rgba(60,173,180,1)'
+                    divStylesObj.display = "block"
             }
             return (
                     <div style={divStylesObj}>
-                        <button className="showCompletedExercisesButton" onClick={this._showCompletedExercises}>Show Completed Exercises</button>
+                        <button style={noCompletedExercisesExistStyleObj} className="showCompletedExercisesButton" onClick={this._showCompletedExercises}>Show Completed Exercises</button>
+                         <p style={noExercisesYetStyleObj}>You have no exercises for today</p>
                         {getExercises}
                     </div>
                 )
@@ -1045,7 +1070,7 @@ function app() {
                 //this.props.model.attributes.done =  true
                 this.props.model.set({done: true})
             }
-            console.log(this.props.model)
+            //console.log(this.props.model)
             // if (this.props.complete) {
             //     var boolean = false
             // } else { var boolean = true}
@@ -1053,7 +1078,8 @@ function app() {
             // this.props._updateStatusOfExercise(this.props.model)
         },
         render: function () {
-            var model = this.props.model 
+            console.log(this)
+            var model = this.props.model
             var completeExerciseStyleObj = {display: "block"}
             var imgShowingStylesObj = {display: 'none'}
 
@@ -1067,7 +1093,7 @@ function app() {
                 imgShowingStylesObj.display = "block"
             }
             return (
-                    <div  >
+                    <div>
                         <div style={completeExerciseStyleObj} className="individualExercise" >
                             <p>Exercise</p><span> {model.attributes.exerciseName}</span>      
                             <p>Description</p><span> {model.attributes.exerciseDescription}</span>
@@ -1082,10 +1108,11 @@ function app() {
                         <CompletedExercises showCompletedExercises={this.props.showCompletedExercises} exerciseModel={this.props.model} />
                     </div>                 
                 )
-            }
+        }
     })
     var CompletedExercises = React.createClass({
         render: function() {
+            console.log(this)
             var model = this.props.exerciseModel 
             var completedExercisesStylesObj = {display: 'none'}
             if (this.props.showCompletedExercises) {
@@ -1094,6 +1121,9 @@ function app() {
             if (!this.props.exerciseModel.attributes.exerciseName) {
                 completedExercisesStylesObj.display = "none"
             }
+            console.log(model)
+            if (!model.get('done')) completedExercisesStylesObj.display = "none"
+
             var imgShowingStylesObj = {display: 'none'}
             if (this.props.exerciseModel.attributes.beforeImg && this.props.exerciseModel.attributes.afterImg) {
                 imgShowingStylesObj.display = "block"
