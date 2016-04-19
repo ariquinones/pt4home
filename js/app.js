@@ -549,10 +549,8 @@ function app() {
                         <img className="icon" src={('./Images/ptExercisesIcon.svg')}/>
                         <span style={colorStyleObj} className="addWeeksExerciseSpan">Add Exercises</span>
                         <div className="weeksContainer">
-                            <div style={dropDownWeek} ref="containerToChangeColor" >
-                                <input type="checkbox" className="weekCheckbox"/>
-                                <span className="weekTitle">Week:</span>
-                                    <DayList dailyExercisesDay={this.props.dailyExercisesDay} dailyExercisesDayShowing={this.props.dailyExercisesDayShowing} _updateDailyExercises={this.props._updateDailyExercises} patientEmail={window.targetEmail} />
+                            <div style={dropDownWeek}  >
+                                    <DayList view={this.props.view} dailyExercisesDay={this.props.dailyExercisesDay} dailyExercisesDayShowing={this.props.dailyExercisesDayShowing} _updateDailyExercises={this.props._updateDailyExercises} patientEmail={window.targetEmail} />
                             </div>
                         </div>
                     </div>
@@ -574,9 +572,13 @@ function app() {
             if (this.props.dailyExercisesDay != null) {
                 var currentDay = this.props.dailyExercisesDay
             }
+            if (this.props.view === 'addExercisesView') {
+                var daysContainerStyle= {display: 'block'}
+            }
             var exerciseWeek = function(mod, i) {
                 var dayOfWeekStyleObj = {}
                 if (mod === currentDay) dayOfWeekStyleObj.color = 'rgba(60,173,180,1)'
+                
                 return (
                          <div>
                             <span  style={dayOfWeekStyleObj} key={i} className="dayOfWeek">{mod}</span>
@@ -584,7 +586,7 @@ function app() {
                     )
             }
             return (
-                    <div onClick={this._toggleDailyExercises} className="daysContainer">
+                    <div onClick={this._toggleDailyExercises} style={daysContainerStyle} className="daysContainer">
                        {["Monday","Tuesday","Wednesday","Thursday","Friday"].map(exerciseWeek)}
                     </div>
                     )
@@ -723,6 +725,10 @@ function app() {
 
 
 
+
+
+
+
 	var PatientPortal = React.createClass({
 		componentWillMount: function() {
   			var self = this
@@ -795,6 +801,7 @@ function app() {
                             <EditPatientProfile view={this.state.view} _viewUpdater={this._viewUpdater} _changeColor={this._changeColor} patientMod={this.props.patientMod} _updateEditPatientProfile={this._updateEditPatientProfile} _updateRightColPatientProfile={this._updateRightColPatientProfile} patientUid={this.props.patientUid} showPatientProfile={this.state.showPatientProfile} />
                         </div>
                         <div className="rightCol">
+                            <Tutorial patientMod={this.props.patientMod} view={this.state.view} _viewUpdater={this._viewUpdater} />
                             <ShowIndividualExercise view={this.state.view} dayPicked={this.state.dayPicked} showCompleteButton={this.state.showCompleteButton} _completeButtonShowing={this._completeButtonShowing} patientMod={this.props.patientMod} showCompletedExercises={this.state.showCompletedExercises} _showCompletedExercises={this._showCompletedExercises} completeExercises={this.state.completeExercises} _updateStatusOfExercise={this._updateStatusOfExercise} dayModelShowing={this.state.dayModelShowing} dayModel={this.state.dayModel}  />
                             <ShowPatientProfile view={this.state.view} patientUid={this.props.patientUid} patientMod={this.props.patientMod} _updateEditPatientProfile={this._updateEditPatientProfile} _updateRightColPatientProfile={this._updateRightColPatientProfile} showPatientProfile={this.state.showPatientProfile}  />
                         </div>
@@ -813,6 +820,37 @@ function app() {
             }
         }
 	})
+    var Tutorial = React.createClass({
+        _changeToProfileView: function() {
+            this.props._viewUpdater('userProfile')
+        },
+        _changeToWeekView: function() {
+            this.props._viewUpdater('showExercises')
+        },
+        render: function() {
+            if (this.props.view === null) {
+                var beginJourney = 
+                        <div>
+                            <p>Welcome, {this.props.patientMod.get('firstName')}</p>
+                            <p>Let's get you healed</p>
+                            <button onClick={this._changeToWeekView}>Start today's treatment</button>
+                        </div>
+            }   else if (this.props.view === null && !this.props.patientMod.get('firstName')) {
+                    var beginJourney = 
+                            <div>
+                                <p> Let's start your journey to recovery!</p>
+                                <p>Please begin by filling out your profile information</p>
+                                <button onClick={this._changeToProfileView}>Start journey</button>
+                            </div>
+                }
+                else var beginJourney = ''
+            return (
+                    <div  className='tutorialContainer'>
+                        {beginJourney}
+                    </div>
+                )
+        }
+    })
     var EditPatientProfile = React.createClass({
         
         _showPatientProfile: function () {
@@ -986,9 +1024,11 @@ function app() {
             }
             var colorSpanStyle = {}
             var colorDivStyle = {}
+            var weekdaysStyle = {}
             if (this.props.view === "showExercises") {
                 colorSpanStyle.color = "rgba(60,173,180,1)"
                 colorDivStyle.background = 'black'
+                weekdaysStyle.display = "block"
             }
             var renderDay = function (dayString, i) {
                 var dayStyle = {color: "white"} 
@@ -999,8 +1039,8 @@ function app() {
                     <div style={colorDivStyle} ref="containerToChangeColor" className="daysOfTheWeeK">
                         <input  onChange={this._toggleExercises} className="daysOfTheWeeKCheckbox" type="checkbox"/>
                         <img className="icon" src={('./Images/ptExercisesIcon.svg')}/>
-                        <span style={colorSpanStyle} className="showWeekSpan">Show Week</span>
-                            <div onClick={this._showChosenDay} className="weekdaysContainer">
+                        <span style={colorSpanStyle} className="showWeekSpan">Week Exercises</span>
+                            <div onClick={this._showChosenDay} style={weekdaysStyle} className="weekdaysContainer">
                                {["Monday","Tuesday","Wednesday","Thursday","Friday"].map(renderDay)}
                             </div>
                     </div>

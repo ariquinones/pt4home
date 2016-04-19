@@ -340,10 +340,6 @@ input[type="checkbox"]:hover {
         }
         .daysContainer {
             display: none;
-                .dayOfWeekCheckbox {
-                    width: 100%;
-                    opacity: 0;
-                }
                 .dayOfWeek {
                     margin-left: 5%;
                     color: rgba(142,154,177,1);
@@ -351,9 +347,6 @@ input[type="checkbox"]:hover {
                 .dayOfWeek:hover {
                     cursor: pointer;
                 }
-                // .dayOfWeekCheckbox:checked ~ .dayOfWeek {
-                //     color: rgba(60,173,180,1);
-                // }
         }
     }
  }
@@ -486,9 +479,9 @@ input[type="checkbox"]:hover {
         margin-left: 5%;
         color: rgba(142,154,177,1);
     }
-    .daysOfTheWeeKCheckbox:checked ~ .weekdaysContainer {
-        display: block;
-    }
+    // .daysOfTheWeeKCheckbox:checked ~ .weekdaysContainer {
+    //     display: block;
+    // }
     .weekdaysContainer {
         display: none;
     }
@@ -502,7 +495,20 @@ input[type="checkbox"]:hover {
         opacity: 1;
     }
 } 
-
+// Patient Start Journey View Right Column
+.tutorialContainer {
+    p {
+        margin: 5%;
+        opacity: .9;
+        font-size: 1.25em;
+    }
+    button {
+        background: rgba(60,173,180,1);
+        color: white;
+        border: none;
+        padding: 1% 5%;
+    }
+}
 // Patient Profile Exercises View Right Column
 .showCompletedExercisesButton {
     background: rgba(60,173,180,1);
