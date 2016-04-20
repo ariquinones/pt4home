@@ -288,9 +288,9 @@ input[type="checkbox"]:hover {
                 opacity: .7;
                 margin: 0;
             }
-            span {
-                margin-left: 1%;
-            }
+            // span {
+            //     margin-left: 1%;
+            // }
 
         }
 }
@@ -334,9 +334,6 @@ input[type="checkbox"]:hover {
         }
         .weekCheckbox:checked ~ .daysContainer {
             display: block;
-        }
-        .weekCheckbox:checked ~ .weekTitle {
-            color: rgba(60,173,180,1);
         }
         .daysContainer {
             display: none;

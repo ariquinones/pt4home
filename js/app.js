@@ -102,18 +102,7 @@ function app() {
                 showPatientAdded: boolean
             })
         },
-        _changeColor: function(divToChange) {
-            // var targetToChange = e.target
-            // console.log(targetToChange)
-            // targetToChange.style.background = "black"
-            if (divToChange.style.background === "black") {
-                 // console.log('color change')
-                 divToChange.style.background = "none" 
-             } else {
-               divToChange.style.background = "black" 
-               // console.log('change to black')
-             } 
-        },
+
         _viewUpdater: function(view) {
             this.setState({
                 view: view
@@ -170,7 +159,7 @@ function app() {
             var divStyleObj = {}
             if (this.props.view === 'allPatientsView') {
                 colorStyleObj.color = 'rgba(60,173,180,1)'
-                divStyleObj.background = 'black'
+                divStyleObj.background = 'rgba(0,0,0,.4)'
             }
             return (
                     <div style={divStyleObj} className="ptsPatientsContainer">
@@ -230,18 +219,15 @@ function app() {
             this.props._updateAddPatient(boolean)
             this.props._viewUpdater('addPatientView')
         },
-         _toggleColors: function(divToChange) {
-            this.props._changeColor(this.refs.containerToChangeColor)
-        },
         render: function() {
             var colorStyleObj = {}
             var divStyleObj = {}
             if (this.props.view === 'addPatientView') {
                 colorStyleObj.color = 'rgba(60,173,180,1)'
-                divStyleObj.background = 'black'
+                divStyleObj.background = 'rgba(0,0,0,.4)'
             }
             return (
-                    <div style={divStyleObj} onClick={this._toggleColors} ref="containerToChangeColor" className="addPatientContainer">
+                    <div style={divStyleObj}  className="addPatientContainer">
                         <input type="checkbox" onChange={this._toggleAddPatient} className="addPatientCheckbox"/>
                         <img className="icon" src={('./Images/addIcon.svg')}/>
                         <span style={colorStyleObj}>Add new patient</span>
@@ -345,7 +331,7 @@ function app() {
             var divStyleObj = {}
             if (this.props.view === 'userProfile') {
                 colorStyleObj.color = 'rgba(60,173,180,1)'
-                divStyleObj.background = 'black'
+                divStyleObj.background = 'rgba(0,0,0,.4)'
             }
             return (
                     <div style={divStyleObj}  className="patientProfileView">
@@ -536,7 +522,7 @@ function app() {
             var dropDownWeek = {}
             if (this.props.view === 'addExercisesView') {
                 colorStyleObj.color = 'rgba(60,173,180,1)'
-                divStyleObj.background = 'black'
+                divStyleObj.background = 'rgba(0,0,0,.4)'
                 dropDownWeek.display = "block"
             }
             if (this.props.view != 'addExercisesView') {
@@ -861,7 +847,7 @@ function app() {
             var colorDivStyle = {}
             if (this.props.view === "userProfile") {
                 colorSpanStyle.color = "rgba(60,173,180,1)"
-                colorDivStyle.background = 'black'
+                colorDivStyle.background = 'rgba(0,0,0,.4)'
             }
             return (
                     <div style={colorDivStyle} className="patientProfileView">
@@ -1027,7 +1013,7 @@ function app() {
             var weekdaysStyle = {}
             if (this.props.view === "showExercises") {
                 colorSpanStyle.color = "rgba(60,173,180,1)"
-                colorDivStyle.background = 'black'
+                colorDivStyle.background = 'rgba(0,0,0,.4)'
                 weekdaysStyle.display = "block"
             }
             var renderDay = function (dayString, i) {
