@@ -706,7 +706,8 @@ function app() {
             return (
                      <div style={popUpStyleObj} className="popUp">
                         <p>Exercise Sent To Patient!</p>
-                        <p className="exitPopUp" onClick={this._changeShowSentExercise} >X</p>
+                        
+                         <button className="exitPopUp" onClick={this._changeShowSentExercise} >&#10003;</button>
                     </div>
                 )
         }

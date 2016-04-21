@@ -160,6 +160,7 @@ body {
         border: none;
         margin: auto 5%;
         padding: 1% 2%;
+        opacity: .8;
          @include breakpoint(medium) {
                 display: block;
                 margin: 5% auto;
@@ -170,6 +171,9 @@ body {
                 margin: 5% auto;
                 font-size: 1.5em;
             }
+    }
+    button:hover {
+        opacity: 1;
     }
 }
 // Login Screen 
@@ -211,10 +215,14 @@ body {
         margin: 2% auto;
         padding: 1%;
         display: block;
+        opacity: .8;
             @include breakpoint(large) {
                 width: 50%;
                 margin: 5% auto;
             }
+    }
+    button:hover {
+        opacity: 1;
     }
 }
 
@@ -522,9 +530,13 @@ input[type="checkbox"]:hover {
         margin: auto 1%;
         width: 45%;
         padding: .5%;
-        border: 1.5px solid rgba(60,173,180,1);
-        border-radius: 5px;
-        background: rgba(255,255,255,.8);
+        outline: 0;
+        border: 0;
+        border-left: 2px solid rgba(30,35,49,1);
+        background: transparent;
+        padding: 1%;
+        line-height: 1.5em;
+        resize: none;
                 @include breakpoint(large) {
                     width: 90%;
                 }
@@ -550,7 +562,7 @@ input[type="checkbox"]:hover {
 }
 
 .popUp {
-    background: rgba(23,27,38,.5);
+    background: rgba(23,27,38,.8);
     padding: 5%;
     display: block;
     width: 40%;
@@ -565,6 +577,11 @@ input[type="checkbox"]:hover {
         color: white;
         font-size: 1.5em;
         width: 90%;
+    }
+    .exitPopUp {
+        width: 4em;
+        height: 3em;
+        border-radius: 5px;
     }
     .exitPopUp:hover {
         cursor: pointer;
@@ -631,9 +648,10 @@ input[type="checkbox"]:hover {
         display: inline-block;
         width: 45%;
         vertical-align: top;
+
                 @include breakpoint(large) {
                     width: 95%;
-                    margin: auto;
+                    margin: 5% auto;
                 }
         .circleGraphContainer {
             color: white;
@@ -641,7 +659,7 @@ input[type="checkbox"]:hover {
             border: 5px solid rgba(40,48,64,.7);
             width: 10em;
             height: 10em;
-            margin: auto;
+            margin: 5% auto;
             padding-top: 5%;
         }
         p {
@@ -662,6 +680,8 @@ input[type="checkbox"]:hover {
         background: white;
         border-radius: 30px;
         width: 80%;
+        border: 1px solid;
+        background: rgba(255,255,255,.8);
     }
 }
 
@@ -908,10 +928,21 @@ input[type="checkbox"]:hover {
         color: white;
         border: none;
         padding: 1% 5%;
+        opacity: .8;
+    }
+    .submitProfileChanges:hover {
+        opacity: 1;
     }
   
 }
 
+button {
+    opacity: .8;
+    border-radius: 5px;
+}
+button:hover {
+    opacity: 1;
+}
 
 
 
