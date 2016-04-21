@@ -24,9 +24,9 @@ import fetch from "isomorphic-fetch"
 // if ('serviceWorker' in navigator) {
 //     navigator.serviceWorker.register('./serviceworker.js').then(() => {
 //         // Registration was successful
-//         console.info('registration success')
+//         
 //     }).catch(() => {
-//         console.error('registration failed')
+//         
 //             // Registration failed
 //     })
 // } else {
@@ -118,6 +118,8 @@ function app() {
                             <span className="welcomeMsg" >Hello, {this.props.ptName.get('name')}</span>
                             <span className="logoutLink" onClick={this._handleLogout}>log out<img src={('./Images/logoutIcon.svg')}/></span>
                         </div>
+                        <input type="checkbox" className="menuIconInput"/>
+                        <img className="menuIcon" src={('./Images/menuIcon.svg')}/>
                         <div className="leftCol">
                             <ShowPatientsInput view={this.state.view} _viewUpdater={this._viewUpdater} _changeColor={this._changeColor} patientsArray={this.props.ptMod}  _updateShowPatients={this._updateShowPatients}/>
                             <AddPatientInput view={this.state.view} _viewUpdater={this._viewUpdater} _changeColor={this._changeColor} showingAddPatient={this.state.showingAddPatient} _updateAddPatient={this._updateAddPatient} />
@@ -259,12 +261,12 @@ function app() {
                 // var patientInjury = patientMod.get('injury')
                 // var patientImg = patientMod.get('patientProfileImg')
                 // var patientPhone = patientMod.get('phone')
-                // console.log(self.props.ptUid)
-                // console.log(ref.getAuth().uid)
+                // 
+                // 
                 // var patientsCollForPT = new PTpatientsCollection(self.props.ptUid)
-                // console.log(patientsCollForPT)
+                // 
                 // patientsCollForPT.on('sync', function() {
-                //     console.log('sinked!')
+                //     
                 //     patientsCollForPT.create({
                 //         id: patientMod.id, 
                 //         name: patientName, 
@@ -378,7 +380,7 @@ function app() {
         },
         _handleProfileChanges: function () {
             var ptProfileMod = new PhysicalTherapistUserModel(this.props.ptUid)
-            console.log(ptProfileMod)
+            
             
             if (this.ptLastName === '') {
                 this.ptLastName = ptProfileMod.get('lastName')
@@ -546,7 +548,7 @@ function app() {
     var DayList = React.createClass({
         _toggleDailyExercises: function(e) {
             var day = e.target.textContent
-            //console.log('day', day)
+            //
             // if (this.props.dailyExercisesDayShowing) {
             //     var boolean = false
             // } else 
@@ -554,7 +556,7 @@ function app() {
             this.props._updateDailyExercises(day,boolean)
         },
         render: function() {
-            //console.log(this.props.dailyExercisesDay)
+            //
             if (this.props.dailyExercisesDay != null) {
                 var currentDay = this.props.dailyExercisesDay
             }
@@ -652,11 +654,13 @@ function app() {
             this.refs.exDescr.value = ''
             this.refs.exReps.value = ''
             this.refs.exSets.value = ''
+            this.refs.beforeImg.value = ''
+            this.refs.afterImg.value = ''
             this._changeShowSentExercise()   
         },
 
         _changeShowSentExercise: function() {
-            console.log('sent!')
+            
             if (this.props.showSentExercise) {
                 var boolean = false
             } else var boolean = true 
@@ -687,7 +691,7 @@ function app() {
 
     var ShowSentMessage = React.createClass({
         _changeShowSentExercise: function() {
-            console.log('sent!')
+            
             if (this.props.showSentExercise) {
                 var boolean = false
             } else var boolean = true 
@@ -746,6 +750,7 @@ function app() {
             this.setState({
                 completeExercises: model
             })
+            console.log(model)
         },
         _showCompletedExercises: function(boolean) {
             this.setState({
@@ -759,14 +764,14 @@ function app() {
         },
         _changeColor: function(divToChange) {
             // var targetToChange = e.target
-            // console.log(targetToChange)
+            // 
             // targetToChange.style.background = "black"
             if (divToChange.style.background === "black") {
-                 console.log('color change')
+                 
                  divToChange.style.background = "none" 
              } else {
                divToChange.style.background = "black" 
-               console.log('change to black')
+               
              } 
         },
         _trackProgressPopUpView: function(boolean) {
@@ -789,13 +794,30 @@ function app() {
                             <span className="welcomeMsg" >Hello, {this.props.patientMod.get('firstName')}</span>
                             <span className="logoutLink" onClick={this._handleLogout}>log out<img src={('./Images/logoutIcon.svg')}/></span>
                         </div>
+                        <input type="checkbox" className="menuIconInput"/>
+                        <img className="menuIcon" src={('./Images/menuIcon.svg')}/>
                         <div className="leftCol">
+                            <DashboardInput view={this.state.view}  _viewUpdater={this._viewUpdater}  />
                             <DaysOfTheWeek view={this.state.view} _viewUpdater={this._viewUpdater} _showDayPicked={this._showDayPicked} dayPicked={this.state.dayPicked}  _changeColor={this._changeColor} dayModelShowing={this.state.dayModelShowing} _updateDayModelShowing={this._updateDayModelShowing} daysArray={this.props.msgColl.models} _updateRightCol={this._updateRightCol} />
                             <EditPatientProfile view={this.state.view} _viewUpdater={this._viewUpdater} _changeColor={this._changeColor} patientMod={this.props.patientMod} _updateEditPatientProfile={this._updateEditPatientProfile} _updateRightColPatientProfile={this._updateRightColPatientProfile} patientUid={this.props.patientUid} showPatientProfile={this.state.showPatientProfile} />
                         </div>
                         <div className="rightCol">
+                            <Dashboard view={this.state.view} _viewUpdater={this._viewUpdater}/>
                             <Tutorial patientMod={this.props.patientMod} view={this.state.view} _viewUpdater={this._viewUpdater} />
-                            <ShowIndividualExercise view={this.state.view} dayPicked={this.state.dayPicked} showTrackProgressPopUp={this.state.showTrackProgressPopUp} _trackProgressPopUpView={this._trackProgressPopUpView} showCompleteButton={this.state.showCompleteButton} _completeButtonShowing={this._completeButtonShowing} patientMod={this.props.patientMod} showCompletedExercises={this.state.showCompletedExercises} _showCompletedExercises={this._showCompletedExercises} completeExercises={this.state.completeExercises} _updateStatusOfExercise={this._updateStatusOfExercise} dayModelShowing={this.state.dayModelShowing} dayModel={this.state.dayModel}  />
+                            <ShowIndividualExercise 
+                                view={this.state.view} 
+                                dayPicked={this.state.dayPicked} 
+                                showTrackProgressPopUp={this.state.showTrackProgressPopUp} 
+                                _trackProgressPopUpView={this._trackProgressPopUpView} 
+                                showCompleteButton={this.state.showCompleteButton} 
+                                _completeButtonShowing={this._completeButtonShowing} 
+                                patientMod={this.props.patientMod} 
+                                showCompletedExercises={this.state.showCompletedExercises} 
+                                _showCompletedExercises={this._showCompletedExercises} 
+                                completeExercises={this.state.completeExercises} 
+                                _updateStatusOfExercise={this._updateStatusOfExercise} 
+                                dayModelShowing={this.state.dayModelShowing} 
+                                dayModel={this.state.dayModel}  />
                             <ShowPatientProfile view={this.state.view} patientUid={this.props.patientUid} patientMod={this.props.patientMod} _updateEditPatientProfile={this._updateEditPatientProfile} _updateRightColPatientProfile={this._updateRightColPatientProfile} showPatientProfile={this.state.showPatientProfile}  />
                         </div>
 					</div>
@@ -830,7 +852,8 @@ function app() {
                                 <button onClick={this._changeToProfileView}>Start journey</button>
                             </div>
 
-            }   else if (this.props.view === null) {
+            }
+            else if (this.props.view === null) {
                     var beginJourney = 
                         <div>
                             <p>Welcome, {this.props.patientMod.get('firstName')}</p>
@@ -846,24 +869,48 @@ function app() {
                 )
         }
     })
+    var DashboardInput = React.createClass({
+        _showDashboardView: function() {
+            this.props._viewUpdater('dashboard')
+        },
+        render: function() {
+            var colorSpanStyle = {}
+            var colorDivStyle = {}
+            var iconStyle = {opacity: '.7'}
+            if (this.props.view === "dashboard") {
+                colorSpanStyle.color = "rgba(60,173,180,1)"
+                colorDivStyle.background = 'rgba(0,0,0,.4)'
+                iconStyle.opacity = '1'
+            }
+            return (
+                <div style={colorDivStyle} className="dashboardInputContainer" onClick={this._showDashboardView}>
+                    <input type="checkbox" className="showCurrentProfileCheckbox"/>
+                    <img style={iconStyle}className="icon" src={('./Images/dashboardIcon.svg')}/>
+                    <span style={colorSpanStyle} className="dashboardSpan">Dashboard</span>
+                </div>
+                )
+        }
+    })
     var Dashboard = React.createClass({
         painArray: [],
         functionalityArray: [],
         averageFunctionality: '',
         averagePain: '',
         _getAverageFunctionality: function() {
-                var averageFunctionality = 0 
+                var totalFunctionality = 0 
                 for (var i = 0; i <this.functionalityArray.length; i++) {
-                    averageFunctionality += this.functionalityArray[i]
-                    this.averageFunctionality = parseInt(averageFunctionality/this.functionalityArray.length) + 'em'
+                    totalFunctionality += this.functionalityArray[i]
                 }
+                this.averageFunctionality = parseInt(totalFunctionality/this.functionalityArray.length)
+               
         },
         _getAveragePain: function () {
-                var averagePain = 0
+                var totalPain = 0
                 for (var i = 0; i<this.painArray.length; i++) {
-                    averagePain = averagePain + this.painArray[i]                    
-                    this.averagePain = parseInt(averagePain/this.painArray.length) + 'em'
+                    totalPain += this.painArray[i]                    
                 }
+                this.averagePain = parseInt(totalPain/this.painArray.length)
+                
         },
         _getPain: function(model,i) {
                 if (model.get('currentPain')) {
@@ -883,28 +930,61 @@ function app() {
             var patientUid = ref.getAuth().uid 
             var averagePain = new PatientProgress(patientUid,"pain")
             var averageFunctionality = new PatientProgress(patientUid, 'functionality')
-            var painBarStyle = {
-                        width: this.averagePain,
-                        background: 'black',
-                        height: '2em'
+
+            var makePainDivs = function(model, i) {
+                var painStyle = {
+                    width: '.5em',
+                    height: (model.get('currentPain') + 'em'),
+                    background: 'rgba(60,173,180,1)',
+                    margin: '1%',
+                    display: 'inline-block',
+                }
+                return <div key={i} style={painStyle}></div>
+            }
+            var makeFunctionalityDivs = function(model, i) {
+                // if (model.get('currentPain')) {
+                    var functionalityStyle = {
+                        width: '.5em',
+                        height: (model.get('currentFunctionality') + 'em'),
+                        background: 'rgba(40,48,64,1)',
+                        margin: '1%',
+                        display: 'inline-block',
                     }
-            var functionalityBarStyle = {
-                        width: this.averageFunctionality,
-                        background: 'rgba(60,173,180,1)',
-                        height: '2em'
-                    }
+                    return <div key={i} style={functionalityStyle}></div>
+            }
+            var dashboardStyle = {display: 'none'}
+            if (this.props.view === "dashboard") dashboardStyle.display = "block"
+            
             return (
-                        <div className="dashboard">
-                            {averagePain.map(this._getPain)}
-                            <p>Average Pain</p>
-                            <div style={painBarStyle}></div>
-                            {averageFunctionality.map(this._getFunctionality)}   
-                            <p>Average Functionality</p>
-                            <div style={functionalityBarStyle}></div>
+                        <div style={dashboardStyle} className="patientDashboard">
+                            <div className="graphContainer">
+                                <p className="resultsTitle">Average Pain</p>
+                                {averagePain.map(makePainDivs)}
+                                {averagePain.map(this._getPain)}
+                                <div className='circleGraphContainer'>
+                                    <p>Average</p><p>Pain</p>
+                                    <p className="averageNumber">{this.averagePain}</p>
+                                </div>
+                            </div>
+                            <div className="graphContainer">
+                                <p className="resultsTitle">Average Functionality</p>
+                                {averageFunctionality.map(makeFunctionalityDivs)}
+                                {averageFunctionality.map(this._getFunctionality)}
+                                <div className='circleGraphContainer'>
+                                    <p>Average</p><p>Functionality</p>
+                                    <p className="averageNumber">{this.averageFunctionality}</p>
+                                </div>
+                            </div>
                         </div>
                 )
         }
     })
+    // {averagePain.map(makePainDivs)}
+    // {averagePain.map(this._getPain)}
+
+    // {averageFunctionality.map(makeFunctionalityDivs)}
+    // {averageFunctionality.map(this._getFunctionality)}
+
     var EditPatientProfile = React.createClass({
         
         _showPatientProfile: function () {
@@ -913,14 +993,16 @@ function app() {
         render: function () {
             var colorSpanStyle = {}
             var colorDivStyle = {}
+             var iconStyle = {opacity: '.7'}
             if (this.props.view === "userProfile") {
                 colorSpanStyle.color = "rgba(60,173,180,1)"
                 colorDivStyle.background = 'rgba(0,0,0,.4)'
+                iconStyle.opacity = '1'
             }
             return (
                     <div style={colorDivStyle} className="patientProfileView">
                         <input type="checkbox" onChange={this._showPatientProfile} className="showCurrentProfileCheckbox"/>
-                         <img className="icon" src={('./Images/profileIcon.svg')}/>
+                         <img style={iconStyle} className="icon" src={('./Images/profileIcon.svg')}/>
                         <span style={colorSpanStyle} className="profileSpan">Profile</span>
                     </div>
                 )
@@ -1079,10 +1161,12 @@ function app() {
             var colorSpanStyle = {}
             var colorDivStyle = {}
             var weekdaysStyle = {}
+            var iconStyle = {opacity: '.7'}
             if (this.props.view === "showExercises") {
                 colorSpanStyle.color = "rgba(60,173,180,1)"
                 colorDivStyle.background = 'rgba(0,0,0,.4)'
                 weekdaysStyle.display = "block"
+                iconStyle.opacity = '1'
             }
             var renderDay = function (dayString, i) {
                 var dayStyle = {color: "white"} 
@@ -1092,7 +1176,7 @@ function app() {
             return (
                     <div style={colorDivStyle} ref="containerToChangeColor" className="daysOfTheWeeK">
                         <input  onChange={this._toggleExercises} className="daysOfTheWeeKCheckbox" type="checkbox"/>
-                        <img className="icon" src={('./Images/ptExercisesIcon.svg')}/>
+                        <img style={iconStyle} className="icon" src={('./Images/ptExercisesIcon.svg')}/>
                         <span style={colorSpanStyle} className="showWeekSpan">Week Exercises</span>
                             <div onClick={this._showChosenDay} style={weekdaysStyle} className="weekdaysContainer">
                                {["Monday","Tuesday","Wednesday","Thursday","Friday"].map(renderDay)}
@@ -1121,12 +1205,23 @@ function app() {
         },
         _getEachExercise: function(model, i) {
                 return (
-                    <IndividualExercise showTrackProgressPopUp={this.props.showTrackProgressPopUp} _trackProgressPopUpView={this.props._trackProgressPopUpView} showCompletedExercises={this.props.showCompletedExercises} _toggleCompletion={this._toggleCompletion} completeExercises={this.props.completeExercises} _updateStatusOfExercise={this.props._updateStatusOfExercise} model={model} key={i} />
+                    <IndividualExercise 
+                        showTrackProgressPopUp={this.props.showTrackProgressPopUp} 
+                        _trackProgressPopUpView={this.props._trackProgressPopUpView} 
+                        showCompletedExercises={this.props.showCompletedExercises} 
+                        _toggleCompletion={this._toggleCompletion} 
+                        completeExercises={this.props.completeExercises} 
+                        _updateStatusOfExercise={this.props._updateStatusOfExercise} 
+                        model={model} 
+                        key={i} />
                 )
         },
         render: function () {
             //if (this.props.dayPicked === null) 
-            var noExercisesYetStyleObj = {display: 'none'} 
+            var noExercisesYetStyleObj = {
+                                            display: 'none',
+                                            marginTop: '5vh'
+                                        } 
             var divStylesObj = {display: "none"} 
             var noCompletedExercisesExistStyleObj = {display: "block"}
 
@@ -1134,7 +1229,7 @@ function app() {
                 var uid = this.props.patientMod.get('id')
                 var dayPickedCollection = new PatientExercises(uid,this.props.dayPicked)
                 var getExercises = dayPickedCollection.map(this._getEachExercise)
-                //console.log(dayPickedCollection)
+                //
                 if (dayPickedCollection.length === 1) {
                     noExercisesYetStyleObj.display = "block"
                     noCompletedExercisesExistStyleObj.display = "none"
@@ -1159,22 +1254,21 @@ function app() {
     var IndividualExercise = React.createClass({
         _changeExerciseStatus: function() {
             if (this.props.model.attributes.done === false) {
-                //this.props.model.attributes.done =  true
                 this.props.model.set({done: true})
                 this.props._trackProgressPopUpView(true)
             }
-            //console.log(this.props.model)
             // if (this.props.complete) {
             //     var boolean = false
             // } else { var boolean = true}
             //this.props._toggleCompletion(this.props.model)
+            //console.log(this.props.model)
             this.props._updateStatusOfExercise(this.props.model)
         },
         render: function () {
             var model = this.props.model
             var completeExerciseStyleObj = {display: "block"}
             var imgShowingStylesObj = {display: 'none'}
-
+            
             if (!this.props.model.attributes.exerciseName) {
                 completeExerciseStyleObj.display = "none"
             }
@@ -1196,15 +1290,20 @@ function app() {
                             </div>
                             <button onClick={this._changeExerciseStatus}>Complete</button>
                         </div>
-                         <TrackProgress model={this.props.model} showTrackProgressPopUp={this.props.showTrackProgressPopUp} _trackProgressPopUpView={this.props._trackProgressPopUpView}/>
-                        <CompletedExercises showCompletedExercises={this.props.showCompletedExercises} exerciseModel={this.props.model} />
+                        <TrackProgress 
+                            model={this.props.model} 
+                            showTrackProgressPopUp={this.props.showTrackProgressPopUp} 
+                            _trackProgressPopUpView={this.props._trackProgressPopUpView}
+                            completeExercises={this.props.completeExercises} />
+                        <CompletedExercises 
+                            showCompletedExercises={this.props.showCompletedExercises} 
+                            exerciseModel={this.props.model} />
                     </div>                 
                 )
         }
     })
     var CompletedExercises = React.createClass({
         render: function() {
-            
             var model = this.props.exerciseModel 
             var completedExercisesStylesObj = {display: 'none'}
             if (this.props.showCompletedExercises) {
@@ -1213,9 +1312,7 @@ function app() {
             if (!this.props.exerciseModel.attributes.exerciseName) {
                 completedExercisesStylesObj.display = "none"
             }
-            
             if (!model.get('done')) completedExercisesStylesObj.display = "none"
-
             var imgShowingStylesObj = {display: 'none'}
             if (this.props.exerciseModel.attributes.beforeImg && this.props.exerciseModel.attributes.afterImg) {
                 imgShowingStylesObj.display = "block"
@@ -1237,21 +1334,18 @@ function app() {
         pain: '',
         functionality: '',
         _handlePain: function (e) {
-            this.pain = e.target.value 
+            this.pain = Number(e.target.value)
             var patientUid = ref.getAuth().uid 
             var typeOfProgress = e.target.name
-            this.props.model.set({pain: this.pain})
-            //var painCol = new PatientProgress(patientUid, typeOfProgress)
-            //painCol.create({currentPain: this.pain})
+            var painCol = new PatientProgress(patientUid, typeOfProgress)
+            painCol.create({currentPain: this.pain})
         },
         _handleFunctionality: function (e) {
-            this.functionality = e.target.value
+            this.functionality = Number(e.target.value)
             var patientUid = ref.getAuth().uid 
             var typeOfProgress = e.target.name
-            console.log(this.props.model)
-            this.props.model.set({functionality: this.functionality})
-            //var functionalityCol = new PatientProgress(patientUid, typeOfProgress)
-            //functionalityCol.create({currentFunctionality: this.functionality})
+            var functionalityCol = new PatientProgress(patientUid, typeOfProgress)
+            functionalityCol.create({currentFunctionality: this.functionality})
         },
         _changePopUpView: function() {
             this.props._trackProgressPopUpView(false)
@@ -1261,9 +1355,8 @@ function app() {
             if (this.props.showTrackProgressPopUp) {
                 trackProgressPopUpStyle.display = "block"
             }
-
             var painRadioButtons = function (model, i) {
-            return <input type="radio" name="pain" key={i} value={model}/>
+            return <input type="radio" name="pain" key={i} value={model} />
             }
             var functionalityRadioButtons = function (model, i) {
                 return <input type="radio" name="functionality" key={i} value={model}/>
@@ -1355,7 +1448,7 @@ function app() {
     		})
     	},
     	_createPTuser: function(email,password) {
-    		// console.log(email, password)
+    		// 
     		var self = this
     		this.ref.createUser({
     			email: email,
@@ -1363,7 +1456,7 @@ function app() {
     		}, function(error,authData) {
     			if (error) console.log(error)
     				else {
-    					console.log(authData)
+    					
     					var ptMod = new PhysicalTherapistUserModel(authData.uid)
     					ptMod.set({
     	    						email: email,
@@ -1383,7 +1476,7 @@ function app() {
     		}, function(error,authData) {
     			if (error) console.log(error)
     				else {
-    					console.log(authData)
+    					
     					var patientMod = new PatientUserModel(authData.uid)
     					patientMod.set({
 	    						email: email,
@@ -1395,27 +1488,27 @@ function app() {
     		})
     	},
     	_loginPtUser: function(email,password) {
-    		//console.log(email,password)
+    		//
     		this.ref.authWithPassword({
     			email: email,
     			password: password
     		}, function(error, authData) {
-    			if (error) console.log(error) 
+    			if (error) console.log(error)
     				else {
-    					console.log(authData)
+    					
     					location.hash = "showPtPortal"
     				}
     		})
     	},
     	_loginPatientUser: function(email,password) {
-    		//console.log(email,password)
+    		//
     		this.ref.authWithPassword({
     			email: email,
     			password: password
     		}, function(error, authData) {
-    			if (error) console.log(error) 
+    			if (error) console.log(error)
     				else {
-    					console.log(authData)
+    					
     					location.hash = "showPatientPortal"
     				}
     		})

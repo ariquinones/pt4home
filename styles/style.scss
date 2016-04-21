@@ -108,6 +108,21 @@ body {
 .pace-active {
     opacity: 1;
 }
+@mixin breakpoint($point) {
+    @if $point == medium {
+        @media (max-width: 543px)  { @content; }
+    }
+    @else if $point == large {
+        @media (max-width: 794px) { @content; }
+    }
+    @else if $point { // allows custom breakpoints
+        @media (max-width: $point) { @content; }
+    }
+}
+
+$small: 543px;
+$medium: 794px;
+$fence-sm: $small $medium;
 
 /**
  * App code
@@ -124,6 +139,12 @@ body {
 .splashContainer {
     margin: 10% auto;
     text-align: center;
+            @include breakpoint(medium) {
+                margin: 20% auto;
+            }
+            @include breakpoint(large) {
+                margin: 20% auto;
+            }
     h1 {
         color: white;
         font-size: 2.5em;
@@ -139,14 +160,30 @@ body {
         border: none;
         margin: auto 5%;
         padding: 1% 2%;
+         @include breakpoint(medium) {
+                display: block;
+                margin: 5% auto;
+                font-size: 1.5em;
+            }
+            @include breakpoint(large) {
+                display: block;
+                margin: 5% auto;
+                font-size: 1.5em;
+            }
     }
 }
 // Login Screen 
 .loginContainer {
     margin: 10% auto;
     text-align: center;
+        @include breakpoint(large) {
+                margin: 30% auto;
+            }
     h1 {
         color: white;
+        @include breakpoint(large) {
+                font-size: 2em;
+            }
     }    
     input {
         border: none;
@@ -157,6 +194,10 @@ body {
         margin: 2% auto;
         padding: 1%;
         width: 30%;
+             @include breakpoint(large) {
+                width: 50%;
+                margin: 5% auto;
+            }
     }
     input:focus {
         outline: none;
@@ -170,6 +211,10 @@ body {
         margin: 2% auto;
         padding: 1%;
         display: block;
+            @include breakpoint(large) {
+                width: 50%;
+                margin: 5% auto;
+            }
     }
 }
 
@@ -185,6 +230,9 @@ body {
         top: 1%;
         margin: 1%;
         color: white;
+            @include breakpoint(large) {
+                top: 0;
+            }
         }
         .logoutLink {
             position: absolute;
@@ -197,6 +245,12 @@ body {
                     vertical-align: middle;
                     margin-left: -110%;
                     height: 5vh;
+                        @include breakpoint(large) {
+                            height: 4vh;
+                        }
+                }
+                @include breakpoint(large) {
+                    top: 0;
                 }
         }
         .logoutLink:hover {
@@ -227,13 +281,51 @@ body {
     text-align: center;
     background: rgba(230,237,243,1);
     min-height: 100vh;
+            @include breakpoint(large) {
+                width: 100%;
+            }
 }
+.menuIconInput {
+    width: 5%;
+    position: fixed;
+    margin-left: 2%;
+    height: 6vh;
+    opacity: 0;
+    z-index: 2;
+}
+.menuIcon {
+    width: 5%;
+    position: fixed;
+    margin-left: 2%;
+    display: none;
+    height: 6vh;
+            @include breakpoint(large) {
+                display: block;
+            }
+}
+
 .leftCol {
     height: 100vh;
     width: 20%;
     display: inline-block;
     color: white;
     background: rgba(40,48,64,1);
+            @include breakpoint(large) {
+                margin-left: -20%;
+            }
+}
+.menuIconInput:checked ~ .leftCol {
+        margin-left: 0;
+        width: 30%;
+}
+.menuIconInput:checked ~ .rightCol {
+        width: 70%;
+}
+.menuIconInput:checked  {
+        margin-left: 32%;
+}
+.menuIconInput:checked ~ .menuIcon {
+        margin-left: 32%;
 }
 
 input:focus {
@@ -249,6 +341,9 @@ input[type="checkbox"]:hover {
         .showAllPatientsTitle {
             margin-left: 5%;
             color: rgba(142,154,177,1);
+                    @include breakpoint(large) {
+                    font-size: .5em;
+                    }
         }
         .showAllPatientsCheckbox {
             width: 100%;
@@ -263,6 +358,9 @@ input[type="checkbox"]:hover {
         box-shadow: .5px .5px 20px rgba(0,0,0,.2);
         margin: 2% auto;
         width: 80%;
+                @include breakpoint(large) {
+                    margin: 10% auto;
+                }
         .patientImgContainer {
             display: inline-block;
             width: 25%;
@@ -305,6 +403,9 @@ input[type="checkbox"]:hover {
     span {
         margin-left: 5%;
         color: rgba(142,154,177,1);
+                @include breakpoint(large) {
+                    font-size: .5em;
+                }
     }
 }
 
@@ -318,6 +419,9 @@ input[type="checkbox"]:hover {
     .addWeeksExerciseSpan {
         margin-left: 5%;
         color: rgba(142,154,177,1);
+        @include breakpoint(large) {
+                    font-size: .5em;
+        }
     }
     // .addExercise:checked ~ .weeksContainer {
     //     display: block;
@@ -340,6 +444,9 @@ input[type="checkbox"]:hover {
                 .dayOfWeek {
                     margin-left: 5%;
                     color: rgba(142,154,177,1);
+                            @include breakpoint(large) {
+                            font-size: .5em;
+                            }
                 }
                 .dayOfWeek:hover {
                     cursor: pointer;
@@ -391,6 +498,9 @@ input[type="checkbox"]:hover {
 }
 .patientToReceiveTreatmentContainer {
     margin: 5% auto;
+            @include breakpoint(large) {
+                    margin: 10% auto;
+                }
     input {
         border: 1px solid rgba(60,173,180,1);
         border-radius: 30px;
@@ -414,7 +524,10 @@ input[type="checkbox"]:hover {
         padding: .5%;
         border: 1.5px solid rgba(60,173,180,1);
         border-radius: 5px;
-        background: rgba(255,255,255,.8)
+        background: rgba(255,255,255,.8);
+                @include breakpoint(large) {
+                    width: 90%;
+                }
     }  
     textarea:focus {
         outline: none;
@@ -477,6 +590,9 @@ input[type="checkbox"]:hover {
     .showWeekSpan {
         margin-left: 5%;
         color: rgba(142,154,177,1);
+            @include breakpoint(large) {
+                    font-size: .5em;
+            }
     }
     // .daysOfTheWeeKCheckbox:checked ~ .weekdaysContainer {
     //     display: block;
@@ -488,14 +604,66 @@ input[type="checkbox"]:hover {
         margin-left: 25%;
         opacity: .8;
         display: block;
+                @include breakpoint(large) {
+                    font-size: .5em;
+                    margin-bottom: 5%;
+                }
     }
     .weekdaySpan:hover {
         cursor: pointer;
         opacity: 1;
     }
 } 
+// Patient Dashboard Input Left Column
+.dashboardInputContainer {
+    .dashboardSpan {
+        margin-left: 5%;
+        color: rgba(142,154,177,1);
+            @include breakpoint(large) {
+                    font-size: .5em;
+            }
+    }
+}
 // Patient Dashboard Right Column
+.patientDashboard {
+    margin: 5%;
+    .graphContainer {
+        display: inline-block;
+        width: 45%;
+        vertical-align: top;
+                @include breakpoint(large) {
+                    width: 95%;
+                    margin: auto;
+                }
+        .circleGraphContainer {
+            color: white;
+            border-radius: 50%;
+            border: 5px solid rgba(40,48,64,.7);
+            width: 10em;
+            height: 10em;
+            margin: auto;
+            padding-top: 5%;
+        }
+        p {
+            color: rgba(40,48,64,.5);
+            line-height: 2em;
+        }
+        p+p {
+            text-indent: 0;
+            margin-top: -1em;
+        }
+        .averageNumber {
+            font-size: 2em;
+        }
 
+    }
+    .resultsTitle {
+        color: rgba(40,48,64,1);
+        background: white;
+        border-radius: 30px;
+        width: 80%;
+    }
+}
 
 // Patient Start Journey View Right Column
 .tutorialContainer {
@@ -560,6 +728,9 @@ input[type="checkbox"]:hover {
     border: none;
     padding: 1% 5%;
     margin: 1% auto;
+            @include breakpoint(large) {
+                    margin-top: 5vh;
+            }
 }
 .individualExercise {
     text-align: left;
@@ -617,11 +788,19 @@ input[type="checkbox"]:hover {
 .profileSpan {
     margin-left: 5%;
     color: rgba(142,154,177,1);
+        @include breakpoint(large) {
+                    font-size: .5em;
+        }
 }
 
   
 // Right column Pt/Patient Profiles View
 .currentProfileInformation {
+            @include breakpoint(large) {
+                    width: 90%;
+                    margin: auto;
+                    margin-top: 4vh;
+            }
     .profileImgContainer {
         width: 100%;
         text-align: left;
@@ -689,6 +868,10 @@ input[type="checkbox"]:hover {
         width: 45%;
         text-align: left;
         margin-bottom: 3%;
+            @include breakpoint(large) {
+                    width: 95%;
+                    margin: auto;
+            }
             p {
                 display: inline-block;
                 color: rgba(166,174,196,1);
