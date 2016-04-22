@@ -441,7 +441,7 @@ function app() {
                                 <img src={this.props.ptMod.get('ptProfileImg')} />
                                 <div className="stylingFileUpload">
                                     <button>Update Profile Image</button>
-                                    <input  ref="patientProfileImg" type="file" onChange={this._handlePatientProfileImg} />
+                                    <input  ref="patientProfileImg" type="file" onChange={this._handlePtProfileImg} />
                                                                 
                                 </div>
                             </div>
