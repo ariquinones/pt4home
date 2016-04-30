@@ -52,6 +52,9 @@ function app() {
     	_handlePTlogin: function() {
     		DOM.render(<PtLoginView ptSignUp={this.props.ptSignUp} ptLogin={this.props.ptLogin}/>, document.querySelector('.container'))
     	},
+        _handleGuestSignIn: function() {
+            this.props.patientLogin('bob@bob.com', 'bob')
+        },
     	render: function () {
     		return (
     			<div className="splashContainer">
@@ -61,6 +64,8 @@ function app() {
 	    				<button onClick={this._handlePatientLogin}>Patient</button>
 	    				<button onClick={this._handlePTlogin}>Physical Therapist</button>
 	    			</div>
+                    <div className="guestLoginIn" onClick={this._handleGuestSignIn}>Sign in as guest patient</div>
+
     			</div>
     			)
     	}

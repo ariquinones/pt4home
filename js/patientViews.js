@@ -17,6 +17,7 @@ var PatientLoginView = React.createClass ({
 	_handleLogin: function() {
 		this.props.patientLogin(this.email, this.password)
 	},
+	
 	render: function () {
 		console.log("patient login page")
     		return (
@@ -28,7 +29,7 @@ var PatientLoginView = React.createClass ({
 	    				<button onClick={this._handleSignUp}>SIGN UP</button>
 	    				<button onClick={this._handleLogin}>LOGIN</button>
 	    			</div>
-    			</div>
+	    		</div>
     			)
     	}
 })
